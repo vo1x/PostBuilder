@@ -16,6 +16,8 @@ const TitleGen = ({ titleKeys, setTitleKeys }) => {
     }
   };
 
+
+
   return (
     <div className="grid grid-cols-3">
       <div className="relative flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md border border-neutral-600 bg-neutral-900 p-2">

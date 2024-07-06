@@ -48,8 +48,6 @@ function FormBuilder() {
     setFormData((prev) => ({ ...prev, audioLanguages: lang }));
   };
 
-  const [embedString, setEmbedString] = useState([]);
-
   const addField = (data, i) => {
     setInputValue('');
     const { name: fieldTitle } = data[0];
@@ -80,6 +78,18 @@ function FormBuilder() {
     REMUX: false,
     'HDR DoVi': false
   });
+
+  useEffect(() => {
+    setTitleKeys((prevKeys) => ({
+      ...prevKeys,
+      '2160p': formData.quality === '2160p' ? true : false,
+      '4k': formData.quality === '2160p' ? true : false,
+      '1080p': formData.quality === '1080p' || formData.quality === '2160p' ? true : false,
+      '1080p 10bit': false,
+      x264: formData.quality === '1080p' || formData.quality === '2160p' ? true : false,
+      HEVC: formData.quality === '2160p' ? true : false
+    }));
+  }, [formData]);
 
   const handleAddFieldBtn = () => {
     fetchFieldInfo(inputValue).then((data) => addField(data));
@@ -189,16 +199,14 @@ function FormBuilder() {
                 <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
             </div>
-            <div className="">
-              <Input
-                label={'Trailer'}
-                value={formData.trailerURL}
-                name={'trailerURL'}
-                onChange={handleInputFieldChange}
-                placeholder={'Embed URL'}
-                type={'text'}
-              />
-            </div>
+            <Input
+              label={'Trailer'}
+              value={formData.trailerURL}
+              name={'trailerURL'}
+              onChange={handleInputFieldChange}
+              placeholder={'Embed URL'}
+              type={'text'}
+            />
 
             <div className=" flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
