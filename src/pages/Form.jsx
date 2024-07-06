@@ -1,7 +1,7 @@
 import EmbedCode from '../components/EmbedCode';
 import { toast } from 'react-toastify';
 import { FiTrash2 } from 'react-icons/fi';
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Field from '../components/Field';
 import Header from '../components/Header';
 import TitleGen from '../components/TitleGen/TitleGen';
@@ -10,8 +10,9 @@ import Input from '../components/Input';
 import Title from '../components/TitleGen/Title';
 import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
+import useFields from '../hooks/useFields';
 function FormBuilder() {
-  const [fieldsData, setFieldsData] = useState([]);
+  const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [prevFolderID, setPrevFolderID] = useState([]);
@@ -20,7 +21,6 @@ function FormBuilder() {
     setInputValue('');
     setPrevFolderID((prevFolderID) => prevFolderID.filter((_, index) => index !== indexToRemove));
     setFields((prevFields) => prevFields.filter((_, index) => index !== indexToRemove));
-    setFieldsData((prevFieldsData) => prevFieldsData.filter((_, index) => index !== indexToRemove));
   };
 
   const [audioLang, setAudioLang] = useState('English');
@@ -35,7 +35,7 @@ function FormBuilder() {
     audioLanguages: audioLang,
     posterURL: '',
     trailerURL: '',
-    fields: fieldsData,
+    fields: fields,
     contentType: 'movie',
     posters: [],
     itemSelected: false,
@@ -52,112 +52,24 @@ function FormBuilder() {
 
   const addField = (data, i) => {
     setInputValue('');
-
-    setFieldsData((prevFieldsData) => [...prevFieldsData, { title: data[0].name, value: data }]);
-    setFields([...fields, { fieldData: data }]);
+    const { name: fieldTitle } = data[0];
+    setFields([...fields, { title: fieldTitle, value: data }]);
   };
 
   useEffect(() => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      fields: fieldsData
+      fields: fields
     }));
-  }, [fieldsData]);
+  }, [fields]);
 
-  const [extractResults, setExtractResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const apiKey = import.meta.env.VITE_GDRIVE_API_KEY;
 
   const handleInputFieldChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleExtractButton = (folderURL) => {
-    if (folderURL === '') {
-      return toast.error('Folder URL is required', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
-    if (
-      !folderURL.startsWith('https://drive.google.com/') &&
-      !folderURL.startsWith('https://drive.usercontent.google.com/')
-    ) {
-      return toast.error('Invalid URL format', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
-    // const isFileUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
-    const isFileUrl =
-      /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)[a-zA-Z0-9_-]+\/?/.test(
-        folderURL
-      );
-
-    const isFolderUrl = /(?:\/(?:drive\/)?(?:u\/\d+\/)?folders\/[a-zA-Z0-9_-]+\/?)/.test(folderURL);
-
-    var fID = '';
-    var type = '';
-    if (isFileUrl) {
-      // const fileRegex = /\/(?:drive\/)?(?:u\/\d+\/)?file\/d\/([a-zA-Z0-9_-]+)/;
-      // const fileRegex = /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=))([a-zA-Z0-9_-]+)/;
-      const fileRegex =
-        /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)([a-zA-Z0-9_-]+)/;
-
-      fID = folderURL.match(fileRegex)[1];
-      type = 'file';
-    } else if (isFolderUrl) {
-      const regexFolder = /\/(?:drive\/)?(?:u\/\d+\/)?folders\/([a-zA-Z0-9_-]+)/;
-      fID = folderURL.match(regexFolder)[1];
-      type = 'folder';
-    }
-
-    if (prevFolderID.includes(fID)) {
-      return toast.warning('Folder already extracted!', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
-    const fetchInfo = async (folderID) => {
-      setLoading(true);
-      try {
-        var url = '';
-        if (type === 'file') {
-          url = `https://www.googleapis.com/drive/v3/files/${folderID}?supportsAllDrives=true&includeItemsFromAllDrives=true&fields=id,name,size,webContentLink,mimeType&key=${apiKey}`;
-        } else if (type === 'folder') {
-          url = `https://www.googleapis.com/drive/v3/files?q='${folderID}'+in+parents&supportsAllDrives=true&includeItemsFromAllDrives=true&pageSize=1000&orderBy=name&fields=files(id,name,size,webContentLink,mimeType)&key=${apiKey}`;
-        }
-        const response = await fetch(url);
-        if (!response.ok) {
-          if (response.status === 404) throw new Error('Invalid URL');
-          else throw new Error('Failed to fetch data');
-        }
-        const data = await response.json();
-        console.log(data);
-        if (type === 'file') {
-          setExtractResults([data]);
-          addField([data]);
-        } else if (type === 'folder') {
-          setExtractResults(data.files);
-          addField(data.files);
-        }
-      } catch (error) {
-        toast.error(`${error}`, { theme: 'colored', autoClose: 2000 });
-        setPrevFolderID('');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchInfo(fID).then(() => setPrevFolderID((prevFolderID) => [...prevFolderID, fID]));
-  };
   const [titleKeys, setTitleKeys] = useState({
     '2160p': false,
     '4k': false,
@@ -168,6 +80,10 @@ function FormBuilder() {
     REMUX: false,
     'HDR DoVi': false
   });
+
+  const handleAddFieldBtn = () => {
+    fetchFieldInfo(inputValue).then((data) => addField(data));
+  };
 
   return (
     <>
@@ -287,7 +203,7 @@ function FormBuilder() {
             <div className=" flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
               {/* Render existing fields */}
-              {fields.map((field, i) => (
+              {/* {fields.map((field, i) => (
                 <div className="relative">
                   <Field
                     key={i}
@@ -303,7 +219,7 @@ function FormBuilder() {
                     <FiTrash2 />
                   </button>
                 </div>
-              ))}
+              ))} */}
               {/* Button to add a new field */}
               <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
                 <input
@@ -314,7 +230,7 @@ function FormBuilder() {
                   value={inputValue}
                 />
                 <button
-                  onClick={() => handleExtractButton(inputValue)}
+                  onClick={handleAddFieldBtn}
                   className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 text-sm font-semibold transition-all duration-300 hover:bg-blue-700"
                 >
                   Add Field

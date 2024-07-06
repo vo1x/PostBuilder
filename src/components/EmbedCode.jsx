@@ -43,16 +43,17 @@ function EmbedCode(props) {
     const updateMoviesString = () => {
       setMoviesPreviewStrings([]);
       props.formData.fields.map((field) => {
+        console.log(field);
         const sortedMovieList = field.value.slice().sort((m1, m2) => m2.size - m1.size);
         const movieString = sortedMovieList
           .filter((movie) => movie.name.endsWith('.mkv') || movie.name.endsWith('.mp4'))
           .map(
             (movie, index) =>
-              `${index === 0 ? '\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n' : '<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>\n'}` +
+              `${index === 0 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>\n' : ''}` +
               `<p style="text-align: center;"><strong><span style="color: #000000;">${movie.name.slice(0, -4)}</span>` +
               `\n<span style="color: #000000;">[</span><span style="color: #ff0000;">${getReadableFS(movie.size)}</span><span style="color: #000000;">]</span></strong></p>` +
               `\n<p style="text-align: center;">[maxbutton id="1" url="${movie.webContentLink}"]</p>` +
-              `${index === sortedMovieList.length - 1 ? '<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : ''}`
+              `${sortedMovieList.length - 1 === 0 || index === sortedMovieList.length - 1 ? '\n<p style="text-align: center;">[mks_separator style="solid" height="5"]</p>' : '\n<p style="text-align: center;">[mks_separator style="solid" height="2"]</p>\n'}`
           );
         setMoviesPreviewStrings((prevMoviesPreviewStrings) => [
           ...prevMoviesPreviewStrings,
