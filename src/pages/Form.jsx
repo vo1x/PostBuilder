@@ -11,6 +11,7 @@ import Title from '../components/TitleGen/Title';
 import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
+import { ChevronUp, ChevronDown } from 'lucide-react';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -52,6 +53,29 @@ function FormBuilder() {
     setInputValue('');
     const { name: fieldTitle } = data[0];
     setFields([...fields, { title: fieldTitle, value: data }]);
+  };
+
+  const moveFieldUp = (oldIndex) => {
+    if (oldIndex > 0 && oldIndex < fields.length) {
+      const currFields = [...fields];
+
+      const temp = currFields[oldIndex];
+      currFields[oldIndex] = currFields[oldIndex - 1];
+      currFields[oldIndex - 1] = temp;
+
+      setFields(currFields);
+    }
+  };
+  const moveFieldDown = (oldIndex) => {
+    if (oldIndex >= 0 && oldIndex < fields.length - 1) {
+      const currFields = [...fields];
+
+      const temp = currFields[oldIndex];
+      currFields[oldIndex] = currFields[oldIndex + 1];
+      currFields[oldIndex + 1] = temp;
+
+      setFields(currFields);
+    }
   };
 
   useEffect(() => {
@@ -208,19 +232,8 @@ function FormBuilder() {
               type={'text'}
             />
 
-            <div className=" flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
+            <div className=" flex max-w-xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
-              {fields.map((field, i) => (
-                <div className="relative">
-                  <Field key={i} fieldIndex={i + 1} data={field}></Field>
-                  <button
-                    onClick={() => removeField(i)}
-                    className="absolute right-0 top-0 m-3 text-lg text-neutral-400 transition-all duration-200 hover:text-red-700"
-                  >
-                    <FiTrash2 />
-                  </button>
-                </div>
-              ))}
               <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
                 <input
                   type="text"
@@ -236,6 +249,50 @@ function FormBuilder() {
                   Add Field
                 </button>
               </div>
+              {fields.map((field, i) => (
+                <div className="relative max-w-xl">
+                  <Field key={i} fieldIndex={i + 1} data={field}></Field>
+                  <div className="absolute right-0 top-0 flex gap-4 p-4">
+                    {i === 0 ? (
+                      <button
+                        onClick={() => moveFieldDown(i)}
+                        className=" text-lg text-neutral-400 transition-all duration-200 "
+                      >
+                        <ChevronDown size={30} />
+                      </button>
+                    ) : i === fields.length - 1 ? (
+                      <button
+                        onClick={() => moveFieldUp(i)}
+                        className=" text-lg text-neutral-400 transition-all duration-200 "
+                      >
+                        <ChevronUp size={30} />
+                      </button>
+                    ) : (
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => moveFieldUp(i)}
+                          className=" text-lg text-neutral-400 transition-all duration-200 "
+                        >
+                          <ChevronUp size={30} />
+                        </button>
+                        <button
+                          onClick={() => moveFieldDown(i)}
+                          className=" text-lg text-neutral-400 transition-all duration-200 "
+                        >
+                          <ChevronDown size={30} />
+                        </button>
+                      </div>
+                    )}
+
+                    <button
+                      onClick={() => removeField(i)}
+                      className="  text-lg text-neutral-400 transition-all duration-200 hover:text-red-700"
+                    >
+                      <FiTrash2 />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

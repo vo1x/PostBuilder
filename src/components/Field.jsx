@@ -5,7 +5,7 @@ function Field(props) {
 
   return (
     <>
-      <div className="flex flex-col rounded-md border border-white/20 bg-white/5 p-2">
+      <div className="flex flex-col rounded-md border border-white/20 bg-white/5 p-4">
         <div className="flex items-center justify-between ">
           <span className="font-bold text-neutral-100">Field {props.fieldIndex} </span>
         </div>
