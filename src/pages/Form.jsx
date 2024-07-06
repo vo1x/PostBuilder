@@ -202,16 +202,9 @@ function FormBuilder() {
 
             <div className=" flex max-w-5xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
-              {/* Render existing fields */}
-              {/* {fields.map((field, i) => (
+              {fields.map((field, i) => (
                 <div className="relative">
-                  <Field
-                    key={i}
-                    fieldIndex={i + 1}
-                    data={field.fieldData}
-                    setEmbedString={setEmbedString}
-                    contentType={formData.contentType}
-                  ></Field>
+                  <Field key={i} fieldIndex={i + 1} data={field}></Field>
                   <button
                     onClick={() => removeField(i)}
                     className="absolute right-0 top-0 m-3 text-lg text-neutral-400 transition-all duration-200 hover:text-red-700"
@@ -219,8 +212,7 @@ function FormBuilder() {
                     <FiTrash2 />
                   </button>
                 </div>
-              ))} */}
-              {/* Button to add a new field */}
+              ))}
               <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
                 <input
                   type="text"
