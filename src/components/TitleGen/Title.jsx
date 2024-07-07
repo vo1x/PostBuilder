@@ -18,7 +18,7 @@ function Title({ formData, titleKeys }) {
               ? `(Season 1 - ${formData.seasonCount}) `
               : '(Season 1) '
             : ''
-        }${formData.contentType === 'series' && formData.ongoing ? `[S${formData.seasonCount.toString().padStart(2, 0)}E${formData.latestEpisode.toString().padStart(2, 0)} Added]` : ''} ${
+        }${formData.contentType === 'series' && formData.ongoing ? `[S${formData.seasonCount.toString().padStart(2, 0)}E${formData.latestEpisode ? formData.latestEpisode.toString().padStart(2, 0) : 'x'} Added]` : ''} ${
           formData.audioType === 'Dual' || formData.audioType === 'Multi'
             ? `${formData.audioType} Audio {${formData.audioLanguages}} `
             : `{${formData.audioLanguages} Audio} `
