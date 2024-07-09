@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 export default function useClipboard() {
   const [copied, setCopied] = useState(false);
 
-  const handleItemCopy = (type, item, enableToast) => {
+  const handleItemCopy = (type, item, enableToast, enableTimeOut) => {
     setCopied(false);
     navigator.clipboard.writeText(item).then(() => {
       setCopied(true);
@@ -14,14 +14,18 @@ export default function useClipboard() {
           position: 'bottom-right'
         });
       };
-      setTimeout(() => {
+      if (enableTimeOut) {
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      } else {
         setCopied(false);
-      }, 2000);
+      }
       if (enableToast) {
         notify();
       }
     });
   };
 
-  return [copied, handleItemCopy];
+  return [copied, handleItemCopy, setCopied];
 }

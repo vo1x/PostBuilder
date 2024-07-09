@@ -12,6 +12,7 @@ import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import useClipboard from '../hooks/useClipboard';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -41,7 +42,8 @@ function FormBuilder() {
     posters: [],
     itemSelected: false,
     ongoing: false,
-    latestEpisode: 0
+    latestEpisode: 0,
+    embedCode: ''
   });
 
   const handleAudioLangChange = (lang) => {
@@ -77,6 +79,10 @@ function FormBuilder() {
       setFields(currFields);
     }
   };
+  const [copied, handleItemCopy] = useClipboard();
+
+  const [titleString, setTitleString] = useState('');
+  const [embedCode, setEmbedCode] = useState(``);
 
   useEffect(() => {
     setFormData((prevFormData) => ({
@@ -119,6 +125,72 @@ function FormBuilder() {
     fetchFieldInfo(inputValue).then((data) => addField(data));
   };
 
+  //   https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20360&_wpnonce=2cf0b6daf9 - 2160p series web dl
+  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20268&_wpnonce=80a2b673ef - 2160p movie web dl
+  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20352&_wpnonce=97782d6207 - 1080p series web dl
+
+  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=9809&_wpnonce=e1c4e2bd9d -  1080p movie web dl
+
+  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20077&_wpnonce=2218621759 bluray 1080p
+  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20075&_wpnonce=c19845352e bluray 2160p
+
+  const drafts = [
+    {
+      quality: '2160p',
+      print: 'web-dl',
+      type: 'series',
+      postID: 20360,
+      wpNonce: '2cf0b6daf9'
+    },
+    {
+      quality: '2160p',
+      print: 'web-dl',
+      type: 'movie',
+      postID: 20268,
+      wpNonce: '80a2b673ef'
+    },
+    {
+      quality: '1080p',
+      print: 'web-dl',
+      type: 'series',
+      postID: 20352,
+      wpNonce: '97782d6207'
+    },
+    {
+      quality: '1080p',
+      print: 'web-dl',
+      type: 'movie',
+      postID: 9809,
+      wpNonce: 'e1c4e2bd9d'
+    },
+    {
+      quality: '1080p',
+      print: 'bluray',
+      type: 'movie',
+      postID: 20077,
+      wpNonce: '2218621759'
+    },
+    {
+      quality: '2160p',
+      print: 'bluray',
+      type: 'movie',
+      postID: 20075,
+      wpNonce: 'c19845352e'
+    }
+  ];
+
+  const handlePostOnSite = () => {
+    const selectedDraft = drafts.find(
+      (draft) =>
+        draft.quality === formData.quality && draft.print === formData.printType.toLowerCase()
+    );
+
+    handleItemCopy('Embed Code', embedCode, false, false);
+    const url = `https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=${selectedDraft.postID}&_wpnonce=${selectedDraft.wpNonce}`;
+
+    window.open(url, '_blank');
+  };
+
   return (
     <>
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
@@ -126,6 +198,12 @@ function FormBuilder() {
           <div className="flex flex-col gap-4 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <Header></Header>
             <SearchBar setFormData={setFormData}></SearchBar>
+            <button
+              onClick={handlePostOnSite}
+              className="w-max rounded-md bg-yellow-500 p-2 font-semibold"
+            >
+              Create Draft
+            </button>
             <div className=" flex flex-col gap-4 lg:flex-row lg:items-center">
               <Input
                 label={'Title'}
@@ -297,8 +375,12 @@ function FormBuilder() {
           </div>
 
           <div className="flex flex-col gap-3 p-4 lg:h-screen lg:overflow-y-auto lg:p-0">
-            <Title formData={formData} titleKeys={titleKeys} />
-            <EmbedCode formData={formData} fieldsCount={fields.length}></EmbedCode>
+            <Title formData={formData} titleKeys={titleKeys} setTitleString={setTitleString} />
+            <EmbedCode
+              formData={formData}
+              setFormData={setFormData}
+              setEmbedCode={setEmbedCode}
+            ></EmbedCode>
           </div>
         </div>
       </div>
