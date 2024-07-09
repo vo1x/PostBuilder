@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import langCodes from '../components/langCodes.json';
 
-export default function AudioInputField({ audioType, defaultValue, setAudioLang }) {
+export default function AudioInputField({ audioType, defaultValue, setAudioLang, formData }) {
   const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {
@@ -8,11 +9,11 @@ export default function AudioInputField({ audioType, defaultValue, setAudioLang 
       audioType === 'Multi'
         ? 'Hindi-English-Tamil-Telugu'
         : audioType === 'Dual'
-          ? 'Hindi-English'
+          ? `Hindi-${langCodes[formData.originalLang]}`
           : defaultValue;
     setAudioLang(audioInputValue);
     setInputValue(audioInputValue);
-  }, [audioType]);
+  }, [audioType, formData]);
 
   useEffect(() => {
     setAudioLang(inputValue);

@@ -30,6 +30,7 @@ function FormBuilder() {
   const [formData, setFormData] = useState({
     title: 'Movie',
     year: '2024',
+    originaLang: 'English',
     seasonCount: 1,
     quality: '1080p',
     printType: 'Web-DL',
@@ -91,8 +92,6 @@ function FormBuilder() {
     }));
   }, [fields]);
 
-  const [loading, setLoading] = useState(false);
-
   const handleInputFieldChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -124,15 +123,6 @@ function FormBuilder() {
   const handleAddFieldBtn = () => {
     fetchFieldInfo(inputValue).then((data) => addField(data));
   };
-
-  //   https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20360&_wpnonce=2cf0b6daf9 - 2160p series web dl
-  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20268&_wpnonce=80a2b673ef - 2160p movie web dl
-  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20352&_wpnonce=97782d6207 - 1080p series web dl
-
-  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=9809&_wpnonce=e1c4e2bd9d -  1080p movie web dl
-
-  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20077&_wpnonce=2218621759 bluray 1080p
-  // https://uhdmovies.tel/wp-admin/admin.php?action=duplicate_post_new_draft&post=20075&_wpnonce=c19845352e bluray 2160p
 
   const drafts = [
     {
@@ -281,6 +271,7 @@ function FormBuilder() {
                 audioType={formData.audioType}
                 defaultValue={'English'}
                 setAudioLang={handleAudioLangChange}
+                formData={formData}
               />
             </div>
             <div className="flex flex-col justify-between gap-8 lg:flex-row lg:gap-20">

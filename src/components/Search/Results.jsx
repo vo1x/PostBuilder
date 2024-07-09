@@ -25,6 +25,7 @@ function Results({ setFormData, searchResults, searchValue }) {
       setFormData((prev) => ({
         ...prev,
         title: mediaInfo.title,
+        originalLang: mediaInfo.original_language || 'English',
         year: mediaInfo?.release_date.split('-')[0],
         posterURL: `https://image.tmdb.org/t/p/original/${mediaInfo.poster_path}`,
         trailerURL: mediaInfo?.videos[0]?.key
