@@ -12,7 +12,6 @@ import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import useClipboard from '../hooks/useClipboard';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -30,7 +29,7 @@ function FormBuilder() {
   const [formData, setFormData] = useState({
     title: 'Movie',
     year: '2024',
-    originaLang: 'English',
+    originaLang: 'en',
     seasonCount: 1,
     quality: '1080p',
     printType: 'Web-DL',

@@ -7,6 +7,7 @@ function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
       <input
         {...rest}
         value={value}
+        min={type === 'number' ? 1 : ''}
         name={name}
         onChange={onChange}
         type={type}
