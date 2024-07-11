@@ -7,13 +7,12 @@ export default function AudioInputField({ audioType, defaultValue, setAudioLang,
   useEffect(() => {
     const audioInputValue =
       audioType === 'Multi'
-        ? `Hindi-${langCodes[formData.originalLang]}-Tamil-Telugu`
+        ? `Hindi-Tamil-Telugu-${langCodes[formData.originalLang]}`
         : audioType === 'Dual'
           ? `Hindi-${langCodes[formData.originalLang]}`
           : defaultValue;
-    setAudioLang(audioInputValue);
     setInputValue(audioInputValue);
-  }, [audioType, formData]);
+  }, [audioType]);
 
   useEffect(() => {
     setAudioLang(inputValue);

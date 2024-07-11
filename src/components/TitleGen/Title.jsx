@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-function Title({ formData, titleKeys, setTitleString }) {
+function Title({ formData, titleKeys }) {
   const [isCopied, setIsCopied] = useState(false);
   const handleItemCopy = (item) => {
     setIsCopied(false);
@@ -10,26 +10,6 @@ function Title({ formData, titleKeys, setTitleString }) {
     });
   };
 
-  useEffect(() => {
-    setTitleString(
-      `Download ${formData.title} (${formData.year}) ${
-        formData.contentType === 'series'
-          ? formData.seasonCount > 1
-            ? `(Season 1 - ${formData.seasonCount}) `
-            : '(Season 1) '
-          : ''
-      }${formData.contentType === 'series' && formData.ongoing ? `[S${formData.seasonCount.toString().padStart(2, 0)}E${formData.latestEpisode.toString().padStart(2, 0)} Added]` : ''}${
-        formData.audioType === 'Dual' || formData.audioType === 'Multi'
-          ? `${formData.audioType} Audio {${formData.audioLanguages}} `
-          : `{${formData.audioLanguages} Audio} `
-      }${Object.keys(titleKeys)
-        .filter((key) => titleKeys[key])
-        .map((key) => `${key} `)
-        .join('|| ')}${formData.printType} Esubs`
-    );
-  }, [formData]);
-
-  
   return (
     <div className="col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-5xl lg:flex-row lg:items-center">
       <span className="text-md max-w-96 rounded-md border border-neutral-600 bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-full lg:text-lg">
