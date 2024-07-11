@@ -105,7 +105,7 @@ Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x2
         />
       </div>
       <button
-        onClick={() => handleItemCopy('Embed Code', finalString)}
+        onClick={() => handleItemCopy('Embed Code', finalString,false,true)}
         className={`absolute right-0 top-0 mx-5 my-1 w-40 cursor-pointer rounded-md ${copied ? 'bg-[#07bc0c] font-semibold' : 'bg-neutral-900'}  p-2 text-sm drop-shadow`}
       >
         {copied ? 'Copied!' : 'Copy Embed Code'}
