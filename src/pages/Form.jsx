@@ -128,6 +128,18 @@ function FormBuilder() {
             <Header></Header>
             <SearchBar setFormData={setFormData}></SearchBar>
 
+            <div className="flex items-center gap-2">
+              <label htmlFor="">Content Type</label>
+              <select
+                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
+                value={formData.contentType}
+                onChange={(e) => setFormData({ ...formData, contentType: e.target.value })}
+              >
+                <option value="movie">Movie</option>
+                <option value="series">Series</option>
+              </select>
+            </div>
+
             <div className=" flex flex-col gap-4 lg:flex-row lg:items-center">
               <Input
                 label={'Title'}
@@ -301,7 +313,7 @@ function FormBuilder() {
 
           <div className="flex flex-col gap-3 p-4 lg:h-screen lg:overflow-y-auto lg:p-0">
             <Title formData={formData} titleKeys={titleKeys} />
-            <EmbedCode formData={formData} setFormData={setFormData}></EmbedCode>
+            <EmbedCode formData={formData}></EmbedCode>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useFileSize from '../hooks/useFileSize';
 import useClipboard from '../hooks/useClipboard';
 
-function EmbedCode({ formData, setEmbedCode, setFormData }) {
+function EmbedCode({ formData }) {
   const { getReadableFS } = useFileSize();
 
   const [copied, handleItemCopy] = useClipboard();
