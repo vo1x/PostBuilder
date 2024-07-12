@@ -61,6 +61,7 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
       } else {
         setFilteredPosters(englishPosters.slice(0, 5));
       }
+      setPosterPathInView(0);
     }
   }, [posters]);
 
