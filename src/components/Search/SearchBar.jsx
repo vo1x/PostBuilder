@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Input from '../Input';
+import Input from '../UI/Input';
 import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import Results from './Results';
@@ -37,7 +37,7 @@ function SearchBar({ setFormData }) {
         placeholder={'Search for a movie or show'}
         type={'text'}
       ></Input>
-      
+
       {searchResults && searchResults.length > 0 ? (
         <Results
           setFormData={setFormData}

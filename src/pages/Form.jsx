@@ -6,7 +6,7 @@ import Field from '../components/Field';
 import Header from '../components/Header';
 import TitleGen from '../components/TitleGen/TitleGen';
 import AudioInputField from '../components/AudioInputField';
-import Input from '../components/Input';
+import Input from '../components/UI/Input';
 import Title from '../components/TitleGen/Title';
 import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
