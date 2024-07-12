@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import CopyButton from '../UI/CopyButton';
+import { motion } from 'framer-motion';
+import useClipboard from '../../hooks/useClipboard';
 function Title({ formData, titleKeys }) {
   const [titleString, setTitleString] = useState('');
-
+  const [copied, handleItemCopy] = useClipboard();
   useEffect(() => {
     const finalString = `Download ${formData.title} (${formData.year}) ${
       formData.contentType === 'series'
@@ -23,11 +24,17 @@ function Title({ formData, titleKeys }) {
   }, [formData, titleKeys]);
 
   return (
-    <div className="col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-5xl lg:flex-row lg:items-center">
-      <span className="text-md max-w-96 rounded-md border border-neutral-600 bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-full lg:text-lg">
+    <div
+      className={`col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-5xl lg:flex-row lg:items-center `}
+      onClick={() => handleItemCopy('Title', titleString, false, true)}
+    >
+      <motion.span
+        initial={{ borderColor: '#525252', color: '#fff' }}
+        animate={copied ? { borderColor: '#22c55e', color: '#22c55e' } : ''}
+        className={`text-md max-w-96 rounded-md  border bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-full lg:text-lg`}
+      >
         {titleString}
-      </span>
-      <CopyButton contentToCopy={titleString} />
+      </motion.span>
     </div>
   );
 }
