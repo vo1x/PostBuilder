@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import useFileSize from '../hooks/useFileSize';
 import useClipboard from '../hooks/useClipboard';
+import CopyButton from './UI/CopyButton';
 
 function EmbedCode({ formData }) {
   const { getReadableFS } = useFileSize();
@@ -43,7 +44,6 @@ function EmbedCode({ formData }) {
     const updateMoviesString = () => {
       setMoviesPreviewStrings([]);
       formData.fields.map((field) => {
-        console.log(field);
         const sortedMovieList = field.value.slice().sort((m1, m2) => m2.size - m1.size);
         const movieString = sortedMovieList
           .filter((movie) => movie.name.endsWith('.mkv') || movie.name.endsWith('.mp4'))
@@ -104,12 +104,11 @@ Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x2
           style={{ overflow: 'hidden', wordWrap: 'break-word' }}
         />
       </div>
-      <button
-        onClick={() => handleItemCopy('Embed Code', finalString,false,true)}
-        className={`absolute right-0 top-0 mx-5 my-1 w-40 cursor-pointer rounded-md ${copied ? 'bg-[#07bc0c] font-semibold' : 'bg-neutral-900'}  p-2 text-sm drop-shadow`}
+      <div
+        className={`absolute right-0 top-0 mx-5 my-1 cursor-pointer rounded-md text-sm shadow-lg shadow-black/50`}
       >
-        {copied ? 'Copied!' : 'Copy Embed Code'}
-      </button>
+        <CopyButton contentToCopy={finalString} />
+      </div>
     </div>
   );
 }
