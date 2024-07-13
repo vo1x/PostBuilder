@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 import MultiSelector from '../components/UI/MultiSelector/MultiSelector';
 import ContentSelector from '../components/ContentSelector';
+import Label from '../components/UI/Label';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -220,7 +221,7 @@ function FormBuilder() {
                 />
               </div>
               <div className="flex flex-col items-start gap-2">
-                <span className="ml-4 uppercase text-neutral-400">Title Generator</span>
+                <Label>Title Generator</Label>
                 <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
             </div>
@@ -234,8 +235,8 @@ function FormBuilder() {
             />
 
             <div className="flex flex-col justify-between gap-8 lg:flex-row lg:gap-20">
-              <div className=" flex flex-col gap-4">
-                <span className="text-base font-semibold">Poster</span>
+              <div className=" flex flex-col gap-2">
+                <Label>Poster</Label>
 
                 {formData.posters !== 0 && (
                   <PosterSelector
