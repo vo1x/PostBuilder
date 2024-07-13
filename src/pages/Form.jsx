@@ -11,7 +11,9 @@ import Title from '../components/TitleGen/Title';
 import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
+import Section from '../components/UI/Section';
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import ContentSelector from '../components/ContentSelector';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -124,46 +126,39 @@ function FormBuilder() {
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
         <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
           <div className="flex flex-col gap-4 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
-            <Header></Header>
-            <SearchBar setFormData={setFormData}></SearchBar>
-
-            <div className="flex items-center gap-2">
-              <label htmlFor="">Content Type</label>
-              <select
-                className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                value={formData.contentType}
-                onChange={(e) => setFormData({ ...formData, contentType: e.target.value })}
-              >
-                <option value="movie">Movie</option>
-                <option value="series">Series</option>
-              </select>
+            <div className="flex flex-col gap-2">
+              <Header></Header>
+              <SearchBar setFormData={setFormData}></SearchBar>
             </div>
 
-            <div className=" flex flex-col gap-4 lg:flex-row lg:items-center">
-              <Input
-                label={'Title'}
-                value={formData.title}
-                name={'title'}
-                onChange={handleInputFieldChange}
-                type={'text'}
-              />
-              <div className="flex gap-4">
+            <div className="flex w-max flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4">
+              <ContentSelector setFormData={setFormData}></ContentSelector>
+              <div className=" flex flex-col  gap-4  ">
                 <Input
-                  label={'Year'}
-                  value={formData.year}
-                  name={'year'}
+                  label={'Title'}
+                  value={formData.title}
+                  name={'title'}
                   onChange={handleInputFieldChange}
-                  type={'number'}
+                  type={'text'}
                 />
-                {formData.contentType === 'series' && (
+                <div className="flex gap-4">
                   <Input
-                    label={`Season Count`}
-                    value={formData.seasonCount}
-                    name={`seasonCount`}
+                    label={'Year'}
+                    value={formData.year}
+                    name={'year'}
                     onChange={handleInputFieldChange}
                     type={'number'}
                   />
-                )}
+                  {formData.contentType === 'series' && (
+                    <Input
+                      label={`Season`}
+                      value={formData.seasonCount}
+                      name={`seasonCount`}
+                      onChange={handleInputFieldChange}
+                      type={'number'}
+                    />
+                  )}
+                </div>
               </div>
             </div>
 

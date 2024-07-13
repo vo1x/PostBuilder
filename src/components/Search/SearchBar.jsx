@@ -29,14 +29,14 @@ function SearchBar({ setFormData }) {
 
   return (
     <div>
-      <Input
-        label={'Search'}
+      <input
         value={searchValue}
         name={'searchbar'}
         onChange={handleInputChange}
-        placeholder={'Search for a movie or show'}
+        placeholder={'Search movie or show...'}
         type={'text'}
-      ></Input>
+        className={`text-md w-80 rounded-lg bg-[#1C1C1E] p-2 outline-none transition-all duration-300 placeholder:text-[#9A9A9C] `}
+      ></input>
 
       {searchResults && searchResults.length > 0 ? (
         <Results

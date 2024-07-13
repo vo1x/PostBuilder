@@ -19,6 +19,11 @@
     border-radius: 5px;
   }
 
+  input{
+    caret-color: #0287FF;
+    
+  }
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: #222;

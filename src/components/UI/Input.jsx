@@ -1,7 +1,10 @@
 function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
   return (
-    <div className=" flex flex-col items-start justify-center gap-2">
-      <label htmlFor="" className="text-base font-semibold">
+    <div className=" flex items-center justify-center ">
+      <label
+        htmlFor=""
+        className=" rounded-l-lg bg-[#2C2C2E] p-2 px-4 font-semibold text-neutral-400"
+      >
         {label}
       </label>
       <input
@@ -12,7 +15,7 @@ function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
         onChange={onChange}
         type={type}
         placeholder={placeholder}
-        className={`rounded-md border ${type === 'text' ? 'w-80' : 'w-20'} border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70`}
+        className={`rounded-r-lg  ${type === 'text' ? ' w-80' : 'w-16'}  bg-[#2C2C2E] p-2 outline-none transition-all duration-300 placeholder:text-white/50  `}
       />
     </div>
   );
