@@ -93,7 +93,9 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
               onClick={() =>
                 handleItemCopy(
                   'Poster URL',
-                  `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`
+                  `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`,
+                  false,
+                  true
                 )
               }
               className={`rounded-md  p-2 font-semibold`}

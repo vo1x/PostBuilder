@@ -238,14 +238,14 @@ function FormBuilder() {
               <div className=" flex flex-col gap-2">
                 <Label>Poster</Label>
 
-                {formData.posters !== 0 && (
+                {/* {formData.posters !== 0 && ( */}
                   <PosterSelector
                     posters={formData.posters}
                     setFormData={setFormData}
                     itemSelected={formData.itemSelected}
                     contentTitle={formData?.title}
                   ></PosterSelector>
-                )}
+                {/* )} */}
               </div>
             </div>
 
