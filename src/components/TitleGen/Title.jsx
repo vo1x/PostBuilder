@@ -5,7 +5,7 @@ function Title({ formData, titleKeys }) {
   const [titleString, setTitleString] = useState('');
   const [copied, handleItemCopy] = useClipboard();
   useEffect(() => {
-    const finalString = `Download ${formData.title} (${formData.year}) ${
+    const finalString = `Download ${formData.title} (${formData.year})${
       formData.contentType === 'series'
         ? formData.seasonCount > 1
           ? `(Season 1 - ${formData.seasonCount}) `
