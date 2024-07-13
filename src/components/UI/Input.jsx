@@ -15,7 +15,7 @@ function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
         onChange={onChange}
         type={type}
         placeholder={placeholder}
-        className={`rounded-r-lg  ${type === 'text' ? ' w-80' : 'w-16'}  bg-[#2C2C2E] p-2 outline-none transition-all duration-300 placeholder:text-white/50  `}
+        className={`rounded-r-lg  ${type === 'text' ? 'w-64 lg:w-80' : 'w-20'}  bg-[#2C2C2E] p-2 outline-none transition-all duration-300 placeholder:text-white/50  `}
       />
     </div>
   );

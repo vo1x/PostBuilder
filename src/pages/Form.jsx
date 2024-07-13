@@ -11,8 +11,9 @@ import Title from '../components/TitleGen/Title';
 import SearchBar from '../components/Search/SearchBar';
 import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
-import Section from '../components/UI/Section';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown } from 'lucide-react';
+import MultiSelector from '../components/UI/MultiSelector/MultiSelector';
 import ContentSelector from '../components/ContentSelector';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
@@ -121,19 +122,29 @@ function FormBuilder() {
     fetchFieldInfo(inputValue).then((data) => addField(data));
   };
 
+  const qualityOptions = [
+    { name: '1080p', value: '1080p' },
+    { name: '2160p', value: '2160p' }
+  ];
+
+  const printTypeOptions = [
+    { name: 'WEB-DL', value: 'WEB-DL' },
+    { name: 'Blu-ray', value: 'Blu-ray' }
+  ];
+
   return (
     <>
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
         <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
-          <div className="flex flex-col gap-4 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
+          <div className="flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <div className="flex flex-col gap-2">
               <Header></Header>
               <SearchBar setFormData={setFormData}></SearchBar>
             </div>
 
-            <div className="flex w-max flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4">
+            <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
               <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
-              <div className=" flex flex-col  gap-4  ">
+              <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
                 <Input
                   label={'Title'}
                   value={formData.title}
@@ -141,7 +152,7 @@ function FormBuilder() {
                   onChange={handleInputFieldChange}
                   type={'text'}
                 />
-                <div className="flex gap-4">
+                <div className="flex w-full gap-4">
                   <Input
                     label={'Year'}
                     value={formData.year}
@@ -149,21 +160,29 @@ function FormBuilder() {
                     onChange={handleInputFieldChange}
                     type={'number'}
                   />
-                  {formData.contentType === 'series' && (
-                    <Input
-                      label={`Season`}
-                      value={formData.seasonCount}
-                      name={`seasonCount`}
-                      onChange={handleInputFieldChange}
-                      type={'number'}
-                    />
-                  )}
+                  <AnimatePresence>
+                    {formData.contentType === 'series' && (
+                      <motion.div
+                        initial={{ scaleX: 0, opacity: 0 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        exit={{ scaleX: 0, opacity: 0 }}
+                      >
+                        <Input
+                          label={`Season`}
+                          value={formData.seasonCount}
+                          name={`seasonCount`}
+                          onChange={handleInputFieldChange}
+                          type={'number'}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-4">
-              <div className="flex items-center gap-2">
+            <div className="flex max-w-80 flex-col gap-8 rounded-lg lg:max-w-none lg:flex-row">
+              {/* <div className="flex items-center gap-2">
                 <label htmlFor="">Quality</label>
                 <select
                   name=""
@@ -175,9 +194,25 @@ function FormBuilder() {
                   <option value="1080p">1080p</option>
                   <option value="2160p">2160p</option>
                 </select>
-              </div>
+              </div> */}
 
-              <div className="flex items-center gap-2">
+              <MultiSelector
+                label={'Quality'}
+                property={'quality'}
+                options={qualityOptions}
+                setFormData={setFormData}
+                defaultOption={qualityOptions[0]}
+              />
+
+              <MultiSelector
+                label={'Print Type'}
+                property={'printType'}
+                options={printTypeOptions}
+                setFormData={setFormData}
+                defaultOption={printTypeOptions[0]}
+              />
+
+              {/* <div className="flex items-center gap-2">
                 <label htmlFor="">Print Type</label>
                 <select
                   name=""
@@ -189,7 +224,7 @@ function FormBuilder() {
                   <option value="Web-DL">Web-DL</option>
                   <option value="Bluray">Bluray</option>
                 </select>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
