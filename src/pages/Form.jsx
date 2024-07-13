@@ -132,7 +132,7 @@ function FormBuilder() {
             </div>
 
             <div className="flex w-max flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4">
-              <ContentSelector setFormData={setFormData}></ContentSelector>
+              <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
               <div className=" flex flex-col  gap-4  ">
                 <Input
                   label={'Title'}

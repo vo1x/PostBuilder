@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function ContentSelector({ setFormData }) {
+function ContentSelector({ formData, setFormData }) {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const handleTabChange = (index) => {
     if (index === 0) {
@@ -11,6 +11,11 @@ function ContentSelector({ setFormData }) {
       setFormData((prev) => ({ ...prev, contentType: 'series' }));
     }
   };
+
+  useEffect(() => {
+    if (formData.contentType === 'movie') setSelectedTabIndex(0);
+    else setSelectedTabIndex(1);
+  }, [formData.contentType]);
 
   return (
     <div className="flex w-max rounded-[10px] bg-[#3A393F] p-0.5">

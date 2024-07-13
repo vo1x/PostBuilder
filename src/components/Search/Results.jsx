@@ -61,7 +61,7 @@ function Results({ setFormData, searchResults, searchValue }) {
 
   return (
     <div>
-      <div className="relative mt-4 flex max-h-96 max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
+      <div className="relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
         <div>
           {filteredResults.map((result, i) => (
             <ResultCard
