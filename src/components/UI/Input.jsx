@@ -1,6 +1,6 @@
 function Input({ label, value, name, onChange, type, placeholder, ...rest }) {
   return (
-    <div className=" flex items-center justify-center ">
+    <div className=" flex items-center  ">
       <label
         htmlFor=""
         className=" rounded-l-lg bg-[#2C2C2E] p-2 px-4 font-semibold text-neutral-400"

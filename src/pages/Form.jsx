@@ -131,6 +131,11 @@ function FormBuilder() {
     { name: 'WEB-DL', value: 'WEB-DL' },
     { name: 'Blu-ray', value: 'Blu-ray' }
   ];
+  const audioTypeOptions = [
+    { name: 'Single', value: 'Single' },
+    { name: 'Dual', value: 'Dual' },
+    { name: 'Multi', value: 'Multi' }
+  ];
 
   return (
     <>
@@ -182,20 +187,6 @@ function FormBuilder() {
             </div>
 
             <div className="flex max-w-80 flex-col gap-8 rounded-lg lg:max-w-none lg:flex-row">
-              {/* <div className="flex items-center gap-2">
-                <label htmlFor="">Quality</label>
-                <select
-                  name=""
-                  id=""
-                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                  value={formData.quality}
-                  onChange={(e) => setFormData({ ...formData, quality: e.target.value })}
-                >
-                  <option value="1080p">1080p</option>
-                  <option value="2160p">2160p</option>
-                </select>
-              </div> */}
-
               <MultiSelector
                 label={'Quality'}
                 property={'quality'}
@@ -211,37 +202,16 @@ function FormBuilder() {
                 setFormData={setFormData}
                 defaultOption={printTypeOptions[0]}
               />
-
-              {/* <div className="flex items-center gap-2">
-                <label htmlFor="">Print Type</label>
-                <select
-                  name=""
-                  id=""
-                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                  value={formData.printType}
-                  onChange={(e) => setFormData({ ...formData, printType: e.target.value })}
-                >
-                  <option value="Web-DL">Web-DL</option>
-                  <option value="Bluray">Bluray</option>
-                </select>
-              </div> */}
             </div>
 
-            <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
-              <div className="flex items-center gap-2">
-                <label htmlFor="">Audio Type</label>
-                <select
-                  name=""
-                  id=""
-                  className="rounded-md bg-neutral-700 p-1 text-sm outline-none"
-                  value={formData.audioType}
-                  onChange={(e) => setFormData({ ...formData, audioType: e.target.value })}
-                >
-                  <option value="Single">Single</option>
-                  <option value="Dual">Dual</option>
-                  <option value="Multi">Multi</option>
-                </select>
-              </div>
+            <div className="flex flex-col items-start gap-2">
+              <MultiSelector
+                label={'Audio Type'}
+                property={'audioType'}
+                options={audioTypeOptions}
+                setFormData={setFormData}
+                defaultOption={audioTypeOptions[0]}
+              />
               <AudioInputField
                 audioType={formData.audioType}
                 defaultValue={'English'}
@@ -249,6 +219,15 @@ function FormBuilder() {
                 formData={formData}
               />
             </div>
+            <Input
+              label={'Trailer'}
+              value={formData.trailerURL}
+              name={'trailerURL'}
+              onChange={handleInputFieldChange}
+              placeholder={'Embed URL'}
+              type={'text'}
+            />
+
             <div className="flex flex-col justify-between gap-8 lg:flex-row lg:gap-20">
               <div className=" flex flex-col gap-4">
                 <span className="text-base font-semibold">Poster</span>
@@ -267,14 +246,6 @@ function FormBuilder() {
                 <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
             </div>
-            <Input
-              label={'Trailer'}
-              value={formData.trailerURL}
-              name={'trailerURL'}
-              onChange={handleInputFieldChange}
-              placeholder={'Embed URL'}
-              type={'text'}
-            />
 
             <div className=" flex max-w-xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
               Fields: {fields.length}
