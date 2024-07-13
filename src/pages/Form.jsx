@@ -203,21 +203,26 @@ function FormBuilder() {
                 defaultOption={printTypeOptions[0]}
               />
             </div>
-
-            <div className="flex flex-col items-start gap-2">
-              <MultiSelector
-                label={'Audio Type'}
-                property={'audioType'}
-                options={audioTypeOptions}
-                setFormData={setFormData}
-                defaultOption={audioTypeOptions[0]}
-              />
-              <AudioInputField
-                audioType={formData.audioType}
-                defaultValue={'English'}
-                setAudioLang={handleAudioLangChange}
-                formData={formData}
-              />
+            <div className="flex flex-col gap-8 lg:flex-row">
+              <div className="flex flex-col items-start gap-2">
+                <MultiSelector
+                  label={'Audio Type'}
+                  property={'audioType'}
+                  options={audioTypeOptions}
+                  setFormData={setFormData}
+                  defaultOption={audioTypeOptions[0]}
+                />
+                <AudioInputField
+                  audioType={formData.audioType}
+                  defaultValue={'English'}
+                  setAudioLang={handleAudioLangChange}
+                  formData={formData}
+                />
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="ml-4 uppercase text-neutral-400">Title Generator</span>
+                <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
+              </div>
             </div>
             <Input
               label={'Trailer'}
@@ -240,10 +245,6 @@ function FormBuilder() {
                     contentTitle={formData?.title}
                   ></PosterSelector>
                 )}
-              </div>
-              <div className=" flex flex-col items-start gap-2">
-                <span className="text-base font-semibold">Title Generator</span>
-                <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
             </div>
 
