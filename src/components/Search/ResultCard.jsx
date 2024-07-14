@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 function ResultCard({
   title,
   description,
@@ -9,12 +11,17 @@ function ResultCard({
   ...rest
 }) {
   return (
-    <div
+    <motion.div
+      whileHover={!isSelected && { scale: 1.05 }}
       {...rest}
-      className={`flex ${isSelected ? 'bg-white/10' : ''} relative max-w-96 gap-2 p-2 lg:hover:cursor-pointer lg:hover:bg-white/10`}
+      className={`relative flex w-full max-w-96 gap-2 pr-4 lg:hover:cursor-pointer `}
     >
       <div className="min-w-12 max-w-12 text-sm">
-        <img src={`https://image.tmdb.org/t/p/w94_and_h141_face/${thumbnail}`} alt="Prev" />
+        <img
+          className="rounded-lg"
+          src={`https://image.tmdb.org/t/p/w94_and_h141_face/${thumbnail}`}
+          alt="Prev"
+        />
       </div>
       <div className="flex max-w-96 flex-col truncate ">
         <span className="truncate font-semibold capitalize">{title}</span>
@@ -25,7 +32,7 @@ function ResultCard({
           <span>{releaseDate}</span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

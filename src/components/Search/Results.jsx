@@ -2,7 +2,7 @@ import ResultCard from './ResultCard';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useMediaInfo from '../../hooks/useMediaInfo';
-
+import { motion, AnimatePresence } from 'framer-motion';
 function Results({ setFormData, searchResults, searchValue }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
@@ -19,6 +19,7 @@ function Results({ setFormData, searchResults, searchValue }) {
   };
 
   const [mediaInfo] = useMediaInfo(selectedItemType, selectedItemID);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     if (mediaInfo) {
@@ -60,26 +61,47 @@ function Results({ setFormData, searchResults, searchValue }) {
   };
 
   return (
-    <div className="relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
-      <div>
-        {filteredResults.map((result, i) => (
-          <ResultCard
-            key={i}
-            title={result.title || result.name}
-            description={result.overview}
-            type={result.media_type}
-            releaseDate={result.first_air_date || result.release_date}
-            thumbnail={result.backdrop_path}
-            onClick={() => handleResultSelect(result.media_type, result.id)}
-            isSelected={result.id === selectedItemID}
-            handleItemUnselect={handleItemUnselect}
-          />
-        ))}
-      </div>
+    <div
+      className={`relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto overflow-x-hidden rounded-[10px] bg-[#1c1c1e] p-2 px-4 ${isItemSelected ? 'pr-4' : 'pr-0'}`}
+    >
+      <AnimatePresence>
+        <motion.div
+          initial={{ filter: 'blur(0px)' }}
+          animate={{ filter: isHovering ? 'blur(10px)' : 'blur(0px)' }}
+          exit={{ filter: 'blur(0px)' }}
+          className={`flex flex-col `}
+        >
+          {filteredResults.map((result, i) => (
+            <div>
+              <ResultCard
+                key={i}
+                title={result.title || result.name}
+                description={result.overview}
+                type={result.media_type}
+                releaseDate={result.first_air_date || result.release_date}
+                thumbnail={result.backdrop_path}
+                onClick={() => handleResultSelect(result.media_type, result.id)}
+                isSelected={result.id === selectedItemID}
+                handleItemUnselect={handleItemUnselect}
+              />
+              {i < filteredResults.length - 1 && <hr className=" my-2 border-[#333336]" />}{' '}
+            </div>
+          ))}
+        </motion.div>
+      </AnimatePresence>
       {isItemSelected && (
-        <div className="absolute right-0" onClick={() => handleItemUnselect()}>
+        <motion.div
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+          whileHover={{ color: '#FF3B30', scale: 1.5 }}
+          className="absolute right-0 pr-2 hover:cursor-pointer "
+          onClick={() => {
+            setIsHovering(false); // Set isHovering to false on click
+            handleItemUnselect(); // Perform the unselect action
+          }}
+        >
           <X></X>
-        </div>
+        </motion.div>
       )}
     </div>
   );
