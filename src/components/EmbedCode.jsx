@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
 import useFileSize from '../hooks/useFileSize';
-import useClipboard from '../hooks/useClipboard';
 import CopyButton from './UI/CopyButton';
-
 function EmbedCode({ formData }) {
   const { getReadableFS } = useFileSize();
-
-  const [copied, handleItemCopy] = useClipboard();
 
   const [seriesPreviewStrings, setSeriesPreviewString] = useState([]);
   const [moviesPreviewStrings, setMoviesPreviewStrings] = useState([]);

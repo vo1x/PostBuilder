@@ -60,29 +60,27 @@ function Results({ setFormData, searchResults, searchValue }) {
   };
 
   return (
-    <div>
-      <div className="relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
-        <div>
-          {filteredResults.map((result, i) => (
-            <ResultCard
-              key={i}
-              title={result.title || result.name}
-              description={result.overview}
-              type={result.media_type}
-              releaseDate={result.first_air_date || result.release_date}
-              thumbnail={result.backdrop_path}
-              onClick={() => handleResultSelect(result.media_type, result.id)}
-              isSelected={result.id === selectedItemID}
-              handleItemUnselect={handleItemUnselect}
-            />
-          ))}
-        </div>
-        {isItemSelected && (
-          <div className="absolute right-0" onClick={() => handleItemUnselect()}>
-            <X></X>
-          </div>
-        )}
+    <div className="relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto rounded-md border border-white/20 bg-white/5">
+      <div>
+        {filteredResults.map((result, i) => (
+          <ResultCard
+            key={i}
+            title={result.title || result.name}
+            description={result.overview}
+            type={result.media_type}
+            releaseDate={result.first_air_date || result.release_date}
+            thumbnail={result.backdrop_path}
+            onClick={() => handleResultSelect(result.media_type, result.id)}
+            isSelected={result.id === selectedItemID}
+            handleItemUnselect={handleItemUnselect}
+          />
+        ))}
       </div>
+      {isItemSelected && (
+        <div className="absolute right-0" onClick={() => handleItemUnselect()}>
+          <X></X>
+        </div>
+      )}
     </div>
   );
 }
