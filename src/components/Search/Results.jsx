@@ -96,8 +96,8 @@ function Results({ setFormData, searchResults, searchValue }) {
           whileHover={{ color: '#FF3B30', scale: 1.5 }}
           className="absolute right-0 pr-2 hover:cursor-pointer "
           onClick={() => {
-            setIsHovering(false); // Set isHovering to false on click
-            handleItemUnselect(); // Perform the unselect action
+            setIsHovering(false); 
+            handleItemUnselect(); 
           }}
         >
           <X></X>
