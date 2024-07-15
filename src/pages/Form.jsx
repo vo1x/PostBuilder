@@ -1,5 +1,4 @@
 import EmbedCode from '../components/EmbedCode';
-import { toast } from 'react-toastify';
 import { FiTrash2 } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
 import Field from '../components/Field';
@@ -293,21 +292,23 @@ function FormBuilder() {
                           >
                             <ChevronUp size={30} />
                           </button>
-                        ) : fields.length>1 && (
-                          <div className="flex items-center">
-                            <button
-                              onClick={() => moveFieldUp(i)}
-                              className=" text-lg text-neutral-400 transition-all duration-200 "
-                            >
-                              <ChevronUp size={30} />
-                            </button>
-                            <button
-                              onClick={() => moveFieldDown(i)}
-                              className=" text-lg text-neutral-400 transition-all duration-200 "
-                            >
-                              <ChevronDown size={30} />
-                            </button>
-                          </div>
+                        ) : (
+                          fields.length > 1 && (
+                            <div className="flex items-center">
+                              <button
+                                onClick={() => moveFieldUp(i)}
+                                className=" text-lg text-neutral-400 transition-all duration-200 "
+                              >
+                                <ChevronUp size={30} />
+                              </button>
+                              <button
+                                onClick={() => moveFieldDown(i)}
+                                className=" text-lg text-neutral-400 transition-all duration-200 "
+                              >
+                                <ChevronDown size={30} />
+                              </button>
+                            </div>
+                          )
                         )}
 
                         <button

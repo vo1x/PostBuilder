@@ -1,7 +1,13 @@
 import Poster from './Poster';
 import Button from './Button';
-import { ChevronLeft, ChevronRight, DownloadIcon, Link, ClipboardCheck } from 'lucide-react';
-import { RiLoader4Line } from '@remixicon/react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  DownloadIcon,
+  Link,
+  ClipboardCheck,
+  LucideLoader
+} from 'lucide-react';
 
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -83,7 +89,7 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
               className="rounded-md bg-blue-600 p-2 font-semibold"
               onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
             >
-              {isLoading ? <RiLoader4Line className="animate-spin" /> : <DownloadIcon />}
+              {isLoading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -110,13 +116,15 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
             path={filteredPosters[posterPathInView]?.file_path}
           />
         </div>
-        <div className="flex flex-col items-center gap-4">
-          <Button btnText={<ChevronLeft size={35} onClick={handlePrevButton} />} />
-          <div className="text-lg font-semibold">
-            {`${filteredPosters.length <= 0 ? 0 : posterPathInView + 1}/${filteredPosters.length}`}
+        {filteredPosters.length > 0 && (
+          <div className="flex flex-col items-center gap-4">
+            <Button btnText={<ChevronLeft size={35} onClick={handlePrevButton} />} />
+            <div className="text-lg font-semibold">
+              {`${filteredPosters.length <= 0 ? 0 : posterPathInView + 1}/${filteredPosters.length}`}
+            </div>
+            <Button btnText={<ChevronRight size={35} onClick={handleNextButton} />} />
           </div>
-          <Button btnText={<ChevronRight size={35} onClick={handleNextButton} />} />
-        </div>
+        )}
       </div>
     </div>
   );

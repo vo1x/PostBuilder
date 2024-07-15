@@ -2,7 +2,7 @@ function Button({ btnText, onClick }) {
   return (
     <button
       onClick={onClick}
-      className="cursor-pointer rounded-md border bg-white/90 p-1 text-black hover:bg-white"
+      className={`cursor-pointer rounded-lg  bg-[#032140] p-0.5 text-[#0A84FF]`}
     >
       <div>{btnText}</div>
     </button>
