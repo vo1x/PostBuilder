@@ -1,9 +1,5 @@
-import { useState, useEffect } from 'react';
-import useFileSize from '../hooks/useFileSize';
 import Label from './UI/Label';
 function Field(props) {
-  const { getReadableFS } = useFileSize();
-
   return (
     <>
       <div className="flex flex-col gap-2">

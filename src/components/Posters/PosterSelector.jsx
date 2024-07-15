@@ -102,7 +102,7 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="rounded-md bg-blue-600 p-2 font-semibold"
+                className="rounded-md bg-[#0A84FF] p-2 font-semibold"
                 onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
               >
                 {isLoading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
@@ -110,7 +110,7 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                initial={{ backgroundColor: '#2563eb' }}
+                initial={{ backgroundColor: '#0A84FF' }}
                 animate={copied ? { backgroundColor: '#16a34a' } : ''}
                 onClick={() =>
                   handleItemCopy(

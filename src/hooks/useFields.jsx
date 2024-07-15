@@ -7,25 +7,6 @@ function useFields() {
   const apiKey = import.meta.env.VITE_GDRIVE_API_KEY;
 
   const fetchFieldInfo = async (contentUrl) => {
-    if (contentUrl === '') {
-      return toast.error('Folder URL is required', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
-    if (
-      !contentUrl.startsWith('https://drive.google.com/') &&
-      !contentUrl.startsWith('https://drive.usercontent.google.com/')
-    ) {
-      return toast.error('Invalid URL format', {
-        theme: 'colored',
-        autoClose: 2000,
-        position: 'top-right'
-      });
-    }
-
     const isFileUrl =
       /(?:\/(?:drive\/)?(?:u\/\d+\/)?(?:file\/d\/|uc\?id=)|https:\/\/drive\.usercontent\.google\.com\/download\?id=)[a-zA-Z0-9_-]+\/?/.test(
         contentUrl
@@ -79,8 +60,8 @@ function useFields() {
       }
       setPrevFolderID((prevFolderIDs) => [...prevFolderIDs, fID]);
     } catch (error) {
-      toast.error(`${error}`, { theme: 'colored', autoClose: 2000 });
       setPrevFolderID('');
+      return error;
     } finally {
       setLoading(false);
     }

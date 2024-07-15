@@ -16,6 +16,7 @@ import MultiSelector from '../components/MultiSelector/MultiSelector';
 import ContentSelector from '../components/ContentSelector';
 import Label from '../components/UI/Label';
 import Divider from '../components/UI/Divider';
+import { toast } from 'react-toastify';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -120,6 +121,25 @@ function FormBuilder() {
   }, [formData]);
 
   const handleAddFieldBtn = () => {
+    if (inputValue === '') {
+      return toast.error('URL is required', {
+        theme: 'colored',
+        autoClose: 2000,
+        position: 'top-right'
+      });
+    }
+
+    if (
+      !inputValue.startsWith('https://drive.google.com/') &&
+      !inputValue.startsWith('https://drive.usercontent.google.com/')
+    ) {
+      return toast.error('Invalid URL format', {
+        theme: 'colored',
+        autoClose: 2000,
+        position: 'top-right'
+      });
+    }
+
     fetchFieldInfo(inputValue).then((data) => addField(data));
   };
 
@@ -261,14 +281,14 @@ function FormBuilder() {
                   ></Input>
                   <button
                     onClick={handleAddFieldBtn}
-                    className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 text-sm font-semibold transition-all duration-300 hover:bg-blue-700"
+                    className="flex items-center gap-1 rounded-md bg-[#0A84FF] px-4 py-2 transition-all duration-300 hover:bg-blue-700"
                   >
                     Add Field
                   </button>
                 </div>
                 <div className={`rounded-xl ${fields.length >= 1 ? 'bg-[#1C1C1E]' : ''} p-4 pr-0`}>
                   {fields.map((field, i) => (
-                    <div className="relative flex max-w-xl flex-col">
+                    <div key={i} className="relative flex max-w-xl flex-col">
                       <Field key={i} fieldIndex={i + 1} data={field}></Field>
                       {i < fields.length - 1 && (
                         <div className="py-4">
