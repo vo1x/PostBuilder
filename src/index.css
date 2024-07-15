@@ -24,6 +24,17 @@
     
   }
 
+  @layer utilities {
+    .scrollbar-hidden::-webkit-scrollbar {
+        display: none;
+    }
+    .scrollbar-hidden {
+        -ms-overflow-style: none; 
+        scrollbar-width: none;  
+  }
+}
+
+
   /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

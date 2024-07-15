@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import useClipboard from '../../hooks/useClipboard';
+import Label from '../UI/Label';
 function Title({ formData, titleKeys }) {
   const [titleString, setTitleString] = useState('');
   const [copied, handleItemCopy] = useClipboard();
@@ -25,13 +26,15 @@ function Title({ formData, titleKeys }) {
 
   return (
     <div
-      className={`col-span-2 flex max-w-96 flex-col items-start gap-4 pr-4 lg:w-full lg:max-w-5xl lg:flex-row lg:items-center `}
+      className={`col-span-2 flex max-w-96 flex-col items-start gap-2 pr-4 lg:w-full lg:max-w-5xl`}
       onClick={() => handleItemCopy('Title', titleString, false, true)}
     >
+      <Label>Title</Label>
       <motion.span
-        initial={{ borderColor: '#525252', color: '#fff' }}
-        animate={copied ? { borderColor: '#22c55e', color: '#22c55e' } : ''}
-        className={`text-md max-w-96 rounded-md  border bg-neutral-900 p-2 font-bold lg:w-full lg:max-w-full lg:text-lg`}
+        initial={{ color: '#fff' }}
+        animate={copied ? { color: '#22c55e' } : ''}
+        transition={{ duration: 0.2 }}
+        className={`text-md max-w-96 cursor-pointer rounded-md bg-[#1c1c1e] p-2 px-4 font-bold lg:w-full lg:max-w-full lg:text-lg`}
       >
         {titleString}
       </motion.span>

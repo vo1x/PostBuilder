@@ -142,47 +142,50 @@ function FormBuilder() {
     <>
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
         <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
-          <div className="flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
+          <div className="lg:scrollbar-hidden flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <div className="flex flex-col gap-2">
               <Header></Header>
               <SearchBar setFormData={setFormData}></SearchBar>
             </div>
 
-            <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
-              <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
-              <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
-                <Input
-                  label={'Title'}
-                  value={formData.title}
-                  name={'title'}
-                  onChange={handleInputFieldChange}
-                  type={'text'}
-                />
-                <div className="flex w-full gap-4">
+            <div className="flex flex-col gap-2">
+              <Label>MEDIA INFO</Label>
+              <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
+                <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
+                <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
                   <Input
-                    label={'Year'}
-                    value={formData.year}
-                    name={'year'}
+                    label={'Title'}
+                    value={formData.title}
+                    name={'title'}
                     onChange={handleInputFieldChange}
-                    type={'number'}
+                    type={'text'}
                   />
-                  <AnimatePresence>
-                    {formData.contentType === 'series' && (
-                      <motion.div
-                        initial={{ scaleX: 0, opacity: 0 }}
-                        animate={{ scaleX: 1, opacity: 1 }}
-                        exit={{ scaleX: 0, opacity: 0 }}
-                      >
-                        <Input
-                          label={`Season`}
-                          value={formData.seasonCount}
-                          name={`seasonCount`}
-                          onChange={handleInputFieldChange}
-                          type={'number'}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div className="flex w-full gap-4">
+                    <Input
+                      label={'Year'}
+                      value={formData.year}
+                      name={'year'}
+                      onChange={handleInputFieldChange}
+                      type={'number'}
+                    />
+                    <AnimatePresence>
+                      {formData.contentType === 'series' && (
+                        <motion.div
+                          initial={{ scaleX: 0, opacity: 0 }}
+                          animate={{ scaleX: 1, opacity: 1 }}
+                          exit={{ scaleX: 0, opacity: 0 }}
+                        >
+                          <Input
+                            label={`Season`}
+                            value={formData.seasonCount}
+                            name={`seasonCount`}
+                            onChange={handleInputFieldChange}
+                            type={'number'}
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
               </div>
             </div>
@@ -312,7 +315,7 @@ function FormBuilder() {
 
           <div className="flex flex-col gap-3 p-4 lg:h-screen lg:overflow-y-auto lg:p-0">
             <Title formData={formData} titleKeys={titleKeys} />
-            <EmbedCode formData={formData} ></EmbedCode>
+            <EmbedCode formData={formData}></EmbedCode>
           </div>
         </div>
       </div>
