@@ -271,9 +271,13 @@ function FormBuilder() {
                 </div>
                 <div className="rounded-xl bg-[#1C1C1E] p-4 pr-0">
                   {fields.map((field, i) => (
-                    <div className="relative flex max-w-xl flex-col ">
+                    <div className="relative flex max-w-xl flex-col">
                       <Field key={i} fieldIndex={i + 1} data={field}></Field>
-                      {i < fields.length - 1 && <Divider />}
+                      {i < fields.length - 1 && (
+                        <div className="py-4">
+                          <Divider />
+                        </div>
+                      )}
                       <div className="absolute right-0 top-0 flex gap-4 pr-4 ">
                         {i === 0 ? (
                           <button

@@ -1,3 +1,4 @@
+import Divider from '../UI/Divider';
 import Tag from './Tag';
 const TitleGen = ({ titleKeys, setTitleKeys }) => {
   const handleCheckbox = (e) => {
@@ -17,21 +18,21 @@ const TitleGen = ({ titleKeys, setTitleKeys }) => {
   };
 
   return (
-    <div className="relative flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-md  bg-[#1C1C1E] p-2">
+    <div className="relative flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-xl  bg-[#1C1C1E]   ">
       <div className="flex items-center gap-2">
-        <div className="flex max-w-80 select-none flex-col justify-between gap-4 rounded-md p-2 lg:max-w-xl">
-          <div className="flex items-center gap-2">
+        <div className="flex max-w-80 select-none flex-col justify-between pl-4 gap-4 rounded-md lg:max-w-xl">
+          <div className="flex items-center gap-2 p-4 pb-0 pl-0 ">
             <Tag tagName={'2160p'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
             <Tag tagName={'1080p'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
             <Tag tagName={'1080p 10bit'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
           </div>
-          <hr className=" border-[#333336] " />
-          <div className="flex items-center gap-2">
+          <Divider />
+          <div className="flex items-center gap-2 px-4 pl-0">
             <Tag tagName={'x264'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
             <Tag tagName={'HEVC'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
           </div>
-          <hr className=" border-[#333336] " />
-          <div className="flex items-center gap-2">
+          <Divider />
+          <div className="flex items-center gap-2 p-4 pt-0 pl-0">
             <Tag tagName={'REMUX'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
             <Tag tagName={'HDR DoVi'} titleKeys={titleKeys} handleCheckbox={handleCheckbox} />
           </div>
