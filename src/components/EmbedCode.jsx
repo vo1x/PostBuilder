@@ -35,7 +35,7 @@ function EmbedCode({ formData }) {
 
         const episodesList = filteredEpisodesList.map(
           (episode, index) =>
-            `[maxbutton id="2" url="${episode.webContentLink}" text="Episode ${index + 1}" ]`
+            `[maxbutton id="2" url="${episode.webContentLink}" text="Episode ${index + 1}"]`
         );
 
         const seriesString =
