@@ -16,6 +16,7 @@ import { ChevronUp, ChevronDown } from 'lucide-react';
 import MultiSelector from '../components/UI/MultiSelector/MultiSelector';
 import ContentSelector from '../components/ContentSelector';
 import Label from '../components/UI/Label';
+import Divider from '../components/UI/Divider';
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
@@ -249,67 +250,73 @@ function FormBuilder() {
               </div>
             </div>
 
-            <div className=" flex max-w-xl flex-col gap-3 rounded-md border border-neutral-700 bg-neutral-900 p-4">
-              Fields: {fields.length}
-              <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
-                <input
-                  type="text"
-                  placeholder="File or Folder URL"
-                  className="w-3/5 rounded-md border border-white/20 bg-white/5 p-2 text-sm outline-none transition-all duration-300 placeholder:text-white/50 focus:border-white/70 lg:ml-2"
-                  onChange={(e) => setInputValue(e.target.value)}
-                  value={inputValue}
-                />
-                <button
-                  onClick={handleAddFieldBtn}
-                  className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 text-sm font-semibold transition-all duration-300 hover:bg-blue-700"
-                >
-                  Add Field
-                </button>
-              </div>
-              {fields.map((field, i) => (
-                <div className="relative max-w-xl">
-                  <Field key={i} fieldIndex={i + 1} data={field}></Field>
-                  <div className="absolute right-0 top-0 flex gap-4 p-4">
-                    {i === 0 ? (
-                      <button
-                        onClick={() => moveFieldDown(i)}
-                        className=" text-lg text-neutral-400 transition-all duration-200 "
-                      >
-                        <ChevronDown size={30} />
-                      </button>
-                    ) : i === fields.length - 1 ? (
-                      <button
-                        onClick={() => moveFieldUp(i)}
-                        className=" text-lg text-neutral-400 transition-all duration-200 "
-                      >
-                        <ChevronUp size={30} />
-                      </button>
-                    ) : (
-                      <div className="flex items-center">
+            <div className="flex max-w-96 flex-col gap-2 lg:max-w-xl">
+              <Label>Fields: {fields.length}</Label>
+
+              <div className="flex flex-col gap-2 ">
+                <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
+                  <Input
+                    label={'URL'}
+                    type={'text'}
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder={'File or Folder URL'}
+                  ></Input>
+                  <button
+                    onClick={handleAddFieldBtn}
+                    className="flex items-center gap-1 rounded-md bg-blue-600 p-2 py-1 text-sm font-semibold transition-all duration-300 hover:bg-blue-700"
+                  >
+                    Add Field
+                  </button>
+                </div>
+                <div className="rounded-xl bg-[#1C1C1E] p-4 pr-0">
+                  {fields.map((field, i) => (
+                    <div className="relative flex max-w-xl flex-col ">
+                      <Field key={i} fieldIndex={i + 1} data={field}></Field>
+                      {i < fields.length - 1 && <Divider />}
+                      <div className="absolute right-0 top-0 flex gap-4 pr-4 ">
+                        {i === 0 ? (
+                          <button
+                            onClick={() => moveFieldDown(i)}
+                            className=" text-lg text-neutral-400 transition-all duration-200 "
+                          >
+                            <ChevronDown size={30} />
+                          </button>
+                        ) : i === fields.length - 1 ? (
+                          <button
+                            onClick={() => moveFieldUp(i)}
+                            className=" text-lg text-neutral-400 transition-all duration-200 "
+                          >
+                            <ChevronUp size={30} />
+                          </button>
+                        ) : (
+                          <div className="flex items-center">
+                            <button
+                              onClick={() => moveFieldUp(i)}
+                              className=" text-lg text-neutral-400 transition-all duration-200 "
+                            >
+                              <ChevronUp size={30} />
+                            </button>
+                            <button
+                              onClick={() => moveFieldDown(i)}
+                              className=" text-lg text-neutral-400 transition-all duration-200 "
+                            >
+                              <ChevronDown size={30} />
+                            </button>
+                          </div>
+                        )}
+
                         <button
-                          onClick={() => moveFieldUp(i)}
-                          className=" text-lg text-neutral-400 transition-all duration-200 "
+                          onClick={() => removeField(i)}
+                          className="  text-lg text-neutral-400 transition-all duration-200 hover:text-red-700"
                         >
-                          <ChevronUp size={30} />
-                        </button>
-                        <button
-                          onClick={() => moveFieldDown(i)}
-                          className=" text-lg text-neutral-400 transition-all duration-200 "
-                        >
-                          <ChevronDown size={30} />
+                          <FiTrash2 />
                         </button>
                       </div>
-                    )}
-
-                    <button
-                      onClick={() => removeField(i)}
-                      className="  text-lg text-neutral-400 transition-all duration-200 hover:text-red-700"
-                    >
-                      <FiTrash2 />
-                    </button>
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
 
