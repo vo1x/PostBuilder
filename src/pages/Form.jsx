@@ -279,21 +279,21 @@ function FormBuilder() {
                         </div>
                       )}
                       <div className="absolute right-0 top-0 flex gap-4 pr-4 ">
-                        {i === 0 ? (
+                        {fields.length > 1 && i === 0 ? (
                           <button
                             onClick={() => moveFieldDown(i)}
                             className=" text-lg text-neutral-400 transition-all duration-200 "
                           >
                             <ChevronDown size={30} />
                           </button>
-                        ) : i === fields.length - 1 ? (
+                        ) : fields.length > 1 && i === fields.length - 1 ? (
                           <button
                             onClick={() => moveFieldUp(i)}
                             className=" text-lg text-neutral-400 transition-all duration-200 "
                           >
                             <ChevronUp size={30} />
                           </button>
-                        ) : (
+                        ) : fields.length>1 && (
                           <div className="flex items-center">
                             <button
                               onClick={() => moveFieldUp(i)}
