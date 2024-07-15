@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Input from '../UI/Input';
 import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import Results from './Results';

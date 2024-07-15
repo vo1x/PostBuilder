@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Option from './Option';
-import Divider from '../Divider';
-import Label from '../Label';
+import Divider from '../UI/Divider';
+import Label from '../UI/Label';
 function MultiSelector({ label, property, options, defaultOption = [], setFormData }) {
   const [selectedOption, setSelectedOption] = useState(defaultOption);
 

@@ -18,7 +18,7 @@ const TitleGen = ({ titleKeys, setTitleKeys }) => {
   };
 
   return (
-    <div className="relative flex w-max max-w-5xl flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-xl  bg-[#1C1C1E]   ">
+    <div className="relative flex w-full flex-col gap-2 overflow-hidden whitespace-normal break-all rounded-xl bg-[#1C1C1E]  lg:max-w-5xl   ">
       <div className="flex items-center gap-2">
         <div className="flex max-w-80 select-none flex-col justify-between gap-4 rounded-md pl-4 lg:max-w-xl">
           <div className="flex items-center gap-2 p-4 pb-0 pl-0 ">

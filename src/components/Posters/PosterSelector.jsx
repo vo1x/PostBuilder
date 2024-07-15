@@ -79,52 +79,54 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
   }, [posterPathInView]);
 
   return (
-    <div className="flex w-full max-w-80 flex-col items-center gap-4">
+    <div className="flex w-full max-w-80 flex-col gap-4">
       <div className="flex max-w-max items-center justify-between gap-4">
-        {filteredPosters.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="rounded-md bg-blue-600 p-2 font-semibold"
-              onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
-            >
-              {isLoading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ backgroundColor: '#2563eb' }}
-              animate={copied ? { backgroundColor: '#16a34a' } : ''}
-              onClick={() =>
-                handleItemCopy(
-                  'Poster URL',
-                  `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`,
-                  false,
-                  true
-                )
-              }
-              className={`rounded-md  p-2 font-semibold`}
-            >
-              {copied ? <ClipboardCheck /> : <Link />}
-            </motion.button>
+        <div className="flex items-center gap-4">
+          <div className="flex min-w-44 max-w-44 flex-col items-center gap-2 overflow-hidden">
+            <Poster
+              key={filteredPosters[posterPathInView]?.file_path}
+              path={filteredPosters[posterPathInView]?.file_path}
+            />
+            {filteredPosters.length > 0 && (
+              <div className="flex w-full items-center justify-between text-gray-400">
+                <Button btnText={<ChevronLeft size={35} onClick={handlePrevButton} />} />
+                <div className="text-lg font-semibold">
+                  {`${filteredPosters.length <= 0 ? 0 : posterPathInView + 1}/${filteredPosters.length}`}
+                </div>
+                <Button btnText={<ChevronRight size={35} onClick={handleNextButton} />} />
+              </div>
+            )}
           </div>
-        )}
-        <div className="flex min-w-44 max-w-44 overflow-hidden">
-          <Poster
-            key={filteredPosters[posterPathInView]?.file_path}
-            path={filteredPosters[posterPathInView]?.file_path}
-          />
-        </div>
-        {filteredPosters.length > 0 && (
-          <div className="flex flex-col items-center gap-4">
-            <Button btnText={<ChevronLeft size={35} onClick={handlePrevButton} />} />
-            <div className="text-lg font-semibold">
-              {`${filteredPosters.length <= 0 ? 0 : posterPathInView + 1}/${filteredPosters.length}`}
+          {filteredPosters.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="rounded-md bg-blue-600 p-2 font-semibold"
+                onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
+              >
+                {isLoading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ backgroundColor: '#2563eb' }}
+                animate={copied ? { backgroundColor: '#16a34a' } : ''}
+                onClick={() =>
+                  handleItemCopy(
+                    'Poster URL',
+                    `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`,
+                    false,
+                    true
+                  )
+                }
+                className={`rounded-md  p-2 font-semibold`}
+              >
+                {copied ? <ClipboardCheck /> : <Link />}
+              </motion.button>
             </div>
-            <Button btnText={<ChevronRight size={35} onClick={handleNextButton} />} />
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

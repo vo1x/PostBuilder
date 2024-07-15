@@ -12,7 +12,7 @@ import PosterSelector from '../components/Posters/PosterSelector';
 import useFields from '../hooks/useFields';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import MultiSelector from '../components/UI/MultiSelector/MultiSelector';
+import MultiSelector from '../components/MultiSelector/MultiSelector';
 import ContentSelector from '../components/ContentSelector';
 import Label from '../components/UI/Label';
 import Divider from '../components/UI/Divider';
@@ -147,68 +147,49 @@ function FormBuilder() {
               <Header></Header>
               <SearchBar setFormData={setFormData}></SearchBar>
             </div>
-
-            <div className="flex flex-col gap-2">
-              <Label>MEDIA INFO</Label>
-              <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
-                <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
-                <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
-                  <Input
-                    label={'Title'}
-                    value={formData.title}
-                    name={'title'}
-                    onChange={handleInputFieldChange}
-                    type={'text'}
-                  />
-                  <div className="flex w-full gap-4">
+            <div className="flex flex-col gap-8 lg:flex-row">
+              <div className="flex flex-col gap-2">
+                <Label>MEDIA INFO</Label>
+                <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
+                  <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
+                  <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
                     <Input
-                      label={'Year'}
-                      value={formData.year}
-                      name={'year'}
+                      label={'Title'}
+                      value={formData.title}
+                      name={'title'}
                       onChange={handleInputFieldChange}
-                      type={'number'}
+                      type={'text'}
                     />
-                    <AnimatePresence>
-                      {formData.contentType === 'series' && (
-                        <motion.div
-                          initial={{ scaleX: 0, opacity: 0 }}
-                          animate={{ scaleX: 1, opacity: 1 }}
-                          exit={{ scaleX: 0, opacity: 0 }}
-                        >
-                          <Input
-                            label={`Season`}
-                            value={formData.seasonCount}
-                            name={`seasonCount`}
-                            onChange={handleInputFieldChange}
-                            type={'number'}
-                          />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    <div className="flex w-full gap-4">
+                      <Input
+                        label={'Year'}
+                        value={formData.year}
+                        name={'year'}
+                        onChange={handleInputFieldChange}
+                        type={'number'}
+                      />
+                      <AnimatePresence>
+                        {formData.contentType === 'series' && (
+                          <motion.div
+                            initial={{ scaleX: 0, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: 1 }}
+                            exit={{ scaleX: 0, opacity: 0 }}
+                          >
+                            <Input
+                              label={`Season`}
+                              value={formData.seasonCount}
+                              name={`seasonCount`}
+                              onChange={handleInputFieldChange}
+                              type={'number'}
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="flex max-w-80 flex-col gap-8 rounded-lg lg:max-w-none lg:flex-row">
-              <MultiSelector
-                label={'Quality'}
-                property={'quality'}
-                options={qualityOptions}
-                setFormData={setFormData}
-                defaultOption={qualityOptions[0]}
-              />
-
-              <MultiSelector
-                label={'Print Type'}
-                property={'printType'}
-                options={printTypeOptions}
-                setFormData={setFormData}
-                defaultOption={printTypeOptions[0]}
-              />
-            </div>
-            <div className="flex flex-col gap-8 lg:flex-row">
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col items-start gap-4">
                 <MultiSelector
                   label={'Audio Type'}
                   property={'audioType'}
@@ -223,10 +204,39 @@ function FormBuilder() {
                   formData={formData}
                 />
               </div>
+            </div>
+            <div className="flex flex-col gap-8 lg:flex-row">
+              <div className="flex min-w-80 max-w-80 flex-col gap-8">
+                <MultiSelector
+                  label={'Quality'}
+                  property={'quality'}
+                  options={qualityOptions}
+                  setFormData={setFormData}
+                  defaultOption={qualityOptions[0]}
+                />
+
+                <MultiSelector
+                  label={'Print Type'}
+                  property={'printType'}
+                  options={printTypeOptions}
+                  setFormData={setFormData}
+                  defaultOption={printTypeOptions[0]}
+                />
+              </div>
               <div className="flex flex-col items-start gap-2">
                 <Label>Title Generator</Label>
                 <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
+            </div>
+
+            <div className=" flex flex-col gap-2">
+              <Label>Poster</Label>
+              <PosterSelector
+                posters={formData.posters}
+                setFormData={setFormData}
+                itemSelected={formData.itemSelected}
+                contentTitle={formData?.title}
+              ></PosterSelector>
             </div>
             <Input
               label={'Trailer'}
@@ -236,18 +246,6 @@ function FormBuilder() {
               placeholder={'Embed URL'}
               type={'text'}
             />
-
-            <div className="flex flex-col justify-between gap-8 lg:flex-row lg:gap-20">
-              <div className=" flex flex-col gap-2">
-                <Label>Poster</Label>
-                <PosterSelector
-                  posters={formData.posters}
-                  setFormData={setFormData}
-                  itemSelected={formData.itemSelected}
-                  contentTitle={formData?.title}
-                ></PosterSelector>
-              </div>
-            </div>
 
             <div className="flex max-w-96 flex-col gap-2 lg:max-w-xl">
               <Label>Fields: {fields.length}</Label>
