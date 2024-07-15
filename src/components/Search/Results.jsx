@@ -62,7 +62,7 @@ function Results({ setFormData, searchResults, searchValue }) {
 
   return (
     <div
-      className={`relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto overflow-x-hidden rounded-[10px] bg-[#1c1c1e] p-2 px-4 ${isItemSelected ? 'pr-4' : 'pr-0'}`}
+      className={`relative mt-4 flex max-h-96 w-full max-w-80 flex-col overflow-y-auto overflow-x-hidden rounded-[10px] bg-[#1c1c1e] p-2 px-4 lg:max-w-96 ${isItemSelected ? 'pr-4' : 'pr-0'}`}
     >
       <AnimatePresence>
         <motion.div
@@ -96,8 +96,8 @@ function Results({ setFormData, searchResults, searchValue }) {
           whileHover={{ color: '#FF3B30', scale: 1.5 }}
           className="absolute right-0 pr-2 hover:cursor-pointer "
           onClick={() => {
-            setIsHovering(false); 
-            handleItemUnselect(); 
+            setIsHovering(false);
+            handleItemUnselect();
           }}
         >
           <X></X>

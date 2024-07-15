@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import Results from './Results';
 import { SearchIcon, LucideLoader } from 'lucide-react';
+import Input from '../UI/Input';
 
 function SearchBar({ setFormData }) {
   const [searchValue, setSearchValue] = useState('');
@@ -31,20 +32,14 @@ function SearchBar({ setFormData }) {
 
   return (
     <div>
-      <div className="flex items-center ">
-        <div className="rounded-l-lg bg-[#1C1C1E] p-2 text-neutral-400">
-          {loading ? <LucideLoader className="animate-spin" /> : <SearchIcon></SearchIcon>}
-        </div>
-        <input
-          value={searchValue}
-          name={'searchbar'}
-          onChange={handleInputChange}
-          placeholder={'Search movie or show...'}
-          type={'text'}
-          className={`text-md w-72 rounded-r-lg bg-[#1C1C1E] p-2 outline-none transition-all duration-300 placeholder:text-[#9A9A9C] `}
-        ></input>
-      </div>
-
+      <Input
+        label={loading ? <LucideLoader className="animate-spin" /> : <SearchIcon></SearchIcon>}
+        value={searchValue}
+        name={'searchbar'}
+        onChange={handleInputChange}
+        placeholder={'Search movie or show...'}
+        type={'text'}
+      ></Input>
       {searchResults && searchResults.length > 0 ? (
         <Results
           setFormData={setFormData}
