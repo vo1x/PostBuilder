@@ -3,7 +3,8 @@ import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import useMediaInfo from '../../hooks/useMediaInfo';
 import { motion, AnimatePresence } from 'framer-motion';
-function Results({ setFormData, searchResults, searchValue }) {
+import Divider from '../UI/Divider';
+function Results({ setFormData, searchResults }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
   const [selectedItemType, setSelectedItemType] = useState('');
@@ -84,7 +85,11 @@ function Results({ setFormData, searchResults, searchValue }) {
                 isSelected={result.id === selectedItemID}
                 handleItemUnselect={handleItemUnselect}
               />
-              {i < filteredResults.length - 1 && <hr className=" my-2 border-[#333336]" />}{' '}
+              {i < filteredResults.length - 1 && (
+                <div className="py-4">
+                  <Divider />
+                </div>
+              )}
             </div>
           ))}
         </motion.div>
