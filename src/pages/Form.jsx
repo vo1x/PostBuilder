@@ -269,7 +269,7 @@ function FormBuilder() {
                     Add Field
                   </button>
                 </div>
-                <div className="rounded-xl bg-[#1C1C1E] p-4 pr-0">
+                <div className={`rounded-xl ${fields.length >= 1 ? 'bg-[#1C1C1E]' : ''} p-4 pr-0`}>
                   {fields.map((field, i) => (
                     <div className="relative flex max-w-xl flex-col">
                       <Field key={i} fieldIndex={i + 1} data={field}></Field>
