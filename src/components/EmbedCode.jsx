@@ -7,10 +7,24 @@ function EmbedCode({ formData }) {
   const [seriesPreviewStrings, setSeriesPreviewString] = useState([]);
   const [moviesPreviewStrings, setMoviesPreviewStrings] = useState([]);
 
+  const {
+    title,
+    year,
+    contentType,
+    seasonCount,
+    printType,
+    quality,
+    audioType,
+    audioLanguages,
+    posterURL,
+    trailerURL,
+    fields
+  } = formData;
+
   useEffect(() => {
     const updateSeriesString = () => {
       setSeriesPreviewString([]);
-      formData.fields.map((field, fieldIndex) => {
+      fields.map((field, fieldIndex) => {
         const filteredEpisodesList = field.value.filter(
           (episode) => episode.name.endsWith('.mkv') || episode.name.endsWith('.mp4')
         );
@@ -38,7 +52,7 @@ function EmbedCode({ formData }) {
 
     const updateMoviesString = () => {
       setMoviesPreviewStrings([]);
-      formData.fields.map((field, fieldIndex) => {
+      fields.map((field, fieldIndex) => {
         const sortedMovieList = field.value.slice().sort((m1, m2) => m2.size - m1.size);
         const movieString = sortedMovieList
           .filter((movie) => movie.name.endsWith('.mkv') || movie.name.endsWith('.mp4'))
@@ -56,25 +70,12 @@ function EmbedCode({ formData }) {
       });
     };
 
-    if (formData.contentType === 'movie') {
+    if (contentType === 'movie') {
       updateMoviesString();
-    } else if (formData.contentType === 'series') {
+    } else if (contentType === 'series') {
       updateSeriesString();
     }
-  }, [formData.fields, formData.contentType]);
-
-  const {
-    title,
-    year,
-    contentType,
-    seasonCount,
-    printType,
-    quality,
-    audioType,
-    audioLanguages,
-    posterURL,
-    trailerURL
-  } = formData;
+  }, [fields, contentType]);
 
   const finalString = `Download<span style="color: #000000;"><strong> ${title} (${year})${contentType === 'series' ? ` (Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span> ${printType}. Download <span style="color: #000000;"><strong>${title} (${year})${contentType === 'series' ? ` (Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span> in <strong><span style="color: #ff0000;"><a style="color: #ff0000;" href="https://uhdmovies.eu/1080p-uhd/">${quality} UHD</a></span> x264</strong><span style="color: #ff0000;"><strong> </strong></span><span style="color: #333333;">Dual Audio with <strong>ORG</strong> Audios.<strong> UHD Movies</strong> is one of the best websites to download High-quality content directly through Google Drive. <a href="https://uhdmovies.eu/movies/"><strong>UHDMOVIES</strong></a> is powered by <strong><a href="https://moviesmod.org/"><span style="color: #008080;">MoviesMod</span></a></strong>. Here you can grab 4k &amp; 1080p UHD contents easily and save them in your google drive. </span>
   <h2 style="text-align: center;"><span style="color: #000000;"><strong>Download ${title} (${year}) ${contentType === 'series' ? `(Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span>
