@@ -8,8 +8,8 @@ function Title({ formData, titleKeys }) {
     const finalString = `Download ${formData.title} (${formData.year})${
       formData.contentType === 'series'
         ? formData.seasonCount > 1
-          ? `(Season 1 - ${formData.seasonCount}) `
-          : '(Season 1) '
+          ? ` (Season 1 - ${formData.seasonCount}) `
+          : ' (Season 1) '
         : ''
     }${formData.contentType === 'series' && formData.ongoing ? `[S${formData.seasonCount.toString().padStart(2, 0)}E${formData.latestEpisode ? formData.latestEpisode.toString().padStart(2, 0) : 'x'} Added]` : ''} ${
       formData.audioType === 'Dual' || formData.audioType === 'Multi'
