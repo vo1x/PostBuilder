@@ -12,11 +12,11 @@ export default function AudioInputField({ audioType, defaultValue, setAudioLang,
           ? `Hindi-${langCodes[formData.originalLang]}`
           : defaultValue;
     setInputValue(audioInputValue);
-  }, [audioType]);
+  }, [audioType, defaultValue, formData.originalLang]);
 
   useEffect(() => {
     setAudioLang(inputValue);
-  }, [inputValue]);
+  }, [inputValue, setAudioLang]);
 
   return (
     <>

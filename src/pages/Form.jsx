@@ -17,15 +17,14 @@ import ContentSelector from '../components/ContentSelector';
 import Label from '../components/UI/Label';
 import Divider from '../components/UI/Divider';
 import { toast } from 'react-toastify';
+
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [fields, setFields] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [prevFolderID, setPrevFolderID] = useState([]);
 
   const removeField = (indexToRemove) => {
     setInputValue('');
-    setPrevFolderID((prevFolderID) => prevFolderID.filter((_, index) => index !== indexToRemove));
     setFields((prevFields) => prevFields.filter((_, index) => index !== indexToRemove));
   };
 
@@ -56,7 +55,7 @@ function FormBuilder() {
     setFormData((prev) => ({ ...prev, audioLanguages: lang }));
   };
 
-  const addField = (data, i) => {
+  const addField = (data) => {
     setInputValue('');
     const { name: fieldTitle } = data[0];
     setFields([...fields, { title: fieldTitle, value: data }]);

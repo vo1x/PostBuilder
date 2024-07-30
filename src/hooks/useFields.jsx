@@ -3,7 +3,6 @@ import { useState } from 'react';
 function useFields() {
   const [prevFolderIDs, setPrevFolderID] = useState([]);
 
-  const [loading, setLoading] = useState(false);
   const apiKey = import.meta.env.VITE_GDRIVE_API_KEY;
 
   const fetchFieldInfo = async (contentUrl) => {
@@ -38,7 +37,6 @@ function useFields() {
       });
     }
 
-    setLoading(true);
     try {
       var url = '';
       if (type === 'file') {
@@ -62,8 +60,6 @@ function useFields() {
     } catch (error) {
       setPrevFolderID('');
       return error;
-    } finally {
-      setLoading(false);
     }
   };
 

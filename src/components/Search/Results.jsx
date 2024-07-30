@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import useMediaInfo from '../../hooks/useMediaInfo';
 import { motion, AnimatePresence } from 'framer-motion';
 import Divider from '../UI/Divider';
+
 function Results({ setFormData, searchResults }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
@@ -40,7 +41,7 @@ function Results({ setFormData, searchResults }) {
         latestEpisode: mediaInfo?.last_episode_to_air?.episode_number
       }));
     }
-  }, [mediaInfo]);
+  }, [mediaInfo, selectedItemType, setFormData]);
 
   const [filteredResults, setFilteredResults] = useState([]);
 
@@ -73,9 +74,8 @@ function Results({ setFormData, searchResults }) {
           className={`flex flex-col `}
         >
           {filteredResults.map((result, i) => (
-            <div>
+            <div key={i}>
               <ResultCard
-                key={i}
                 title={result.title || result.name}
                 description={result.overview}
                 type={result.media_type}

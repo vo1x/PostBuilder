@@ -34,7 +34,7 @@ function SearchBar({ setFormData }) {
     if (debouncedValue !== '') {
       handleSearch(searchValue);
     }
-  }, [debouncedValue]);
+  }, [debouncedValue, searchValue]);
 
   return (
     <div>

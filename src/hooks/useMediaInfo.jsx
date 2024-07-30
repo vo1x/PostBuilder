@@ -5,7 +5,6 @@ export default function useMediaInfo(mediaType, mediaID) {
   const fetchInfo = async () => {
     try {
       const { data } = await axios.get(`/media/${mediaType}/${mediaID}`);
-      // console.log(data);
       return data;
     } catch (error) {
       console.error('Error occurred: ', error);

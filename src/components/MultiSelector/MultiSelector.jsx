@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import Option from './Option';
 import Divider from '../UI/Divider';
 import Label from '../UI/Label';
+
 function MultiSelector({ label, property, options, defaultOption = [], setFormData }) {
   const [selectedOption, setSelectedOption] = useState(defaultOption);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, [property]: selectedOption.value }));
-  }, [selectedOption]);
+  }, [selectedOption, property, setFormData]);
 
   return (
     <div className="flex w-full max-w-80 flex-col items-start gap-2">
