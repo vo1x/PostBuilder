@@ -18,7 +18,13 @@ function SearchBar({ setFormData }) {
 
   const handleSearch = async (query) => {
     setLoading(true);
-    const url = `/search?query=${query}`;
+    const imdbIdRegex = /^tt\d{7,}$/;
+    let url = '';
+    if (imdbIdRegex.test(query)) {
+      url = `/find?id=${query}`;
+    } else {
+      url = `/search?query=${query}`;
+    }
     const { data } = await axios.get(url);
     setLoading(false);
     setSearchResults(data);
