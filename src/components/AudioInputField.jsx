@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import langCodes from '../components/langCodes.json';
+import langCodes from './langCodes.json';
 import Input from './UI/Input';
 export default function AudioInputField({ audioType, defaultValue, setAudioLang, formData }) {
   const [inputValue, setInputValue] = useState(defaultValue);
