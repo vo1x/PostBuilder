@@ -117,7 +117,7 @@ function FormBuilder() {
       x264: formData.quality === '1080p' || formData.quality === '2160p' ? true : false,
       HEVC: formData.quality === '2160p' ? true : false
     }));
-  }, [formData]);
+  }, [formData.quality]);
 
   const handleAddFieldBtn = () => {
     if (inputValue === '') {

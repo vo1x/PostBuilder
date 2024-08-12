@@ -12,7 +12,8 @@ const TitleGen = ({ titleKeys, setTitleKeys }) => {
     if (value === '2160p') {
       setTitleKeys((prevStates) => ({
         ...prevStates,
-        '4k': checked
+        '4k': checked,
+        HEVC: checked
       }));
     }
   };
