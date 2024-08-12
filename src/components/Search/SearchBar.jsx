@@ -32,9 +32,9 @@ function SearchBar({ setFormData }) {
 
   useEffect(() => {
     if (debouncedValue !== '') {
-      handleSearch(searchValue);
+      handleSearch(debouncedValue);
     }
-  }, [debouncedValue, searchValue]);
+  }, [debouncedValue]);
 
   return (
     <div>
