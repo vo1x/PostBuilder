@@ -12,6 +12,8 @@ import {
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import useClipboard from '../../hooks/useClipboard';
+import useImageDownloader from '../../hooks/useImageDownloader';
+
 function PosterSelector({ posters, setFormData, contentTitle }) {
   const [posterPathInView, setPosterPathInView] = useState(0);
   const [filteredPosters, setFilteredPosters] = useState(posters);
@@ -32,31 +34,7 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
     }
   };
 
-  const [isLoading, setLoading] = useState(false);
-
-  const uploadImage = (filePath) => {
-    setLoading(true);
-    const fileName = `Download ${contentTitle.replace(/[^a-zA-Z0-9\s]/g, '')}`;
-    const imageBaseUrl = 'https://image.tmdb.org/t/p/original';
-    const data = new FormData();
-    data.append('file', imageBaseUrl + filePath);
-    data.append('upload_preset', 'uhdposters');
-    data.append('cloud_name', 'dqvyyissy');
-
-    fetch('https://api.cloudinary.com/v1_1/dqvyyissy/image/upload', {
-      method: 'POST',
-      body: data
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        const fileID = data.secure_url.split('/').pop();
-        let finalURL = '';
-        finalURL = `https://res.cloudinary.com/dqvyyissy/image/upload/fl_attachment:${fileName}/v${Date.now()}/${fileID}`;
-        window.location.href = finalURL;
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  };
+  const { downloadImage, isDownloading } = useImageDownloader();
 
   useEffect(() => {
     if (posters) {
@@ -103,9 +81,14 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 className="rounded-md bg-[#0A84FF] p-2 font-semibold"
-                onClick={() => uploadImage(filteredPosters[posterPathInView]?.file_path)}
+                onClick={() =>
+                  downloadImage(
+                    filteredPosters[posterPathInView]?.file_path,
+                    `Download ${contentTitle.replace(/[^a-zA-Z0-9\s]/g, '')}`
+                  )
+                }
               >
-                {isLoading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
+                {isDownloading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.1 }}
