@@ -17,83 +17,53 @@ import ContentSelector from '../components/ContentSelector';
 import Label from '../components/UI/Label';
 import Divider from '../components/UI/Divider';
 import { toast } from 'react-toastify';
+import useFormStore from '../stores/formStore';
 
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
-  const [fields, setFields] = useState([]);
   const [inputValue, setInputValue] = useState('');
+
+  const formData = useFormStore((state) => state.formData);
+  const updateFormData = useFormStore((state) => state.updateFormData);
 
   const removeField = (indexToRemove) => {
     setInputValue('');
-    setFields((prevFields) => prevFields.filter((_, index) => index !== indexToRemove));
-  };
-
-  const [audioLang, setAudioLang] = useState('English');
-
-  const [formData, setFormData] = useState({
-    title: 'Movie',
-    year: '2024',
-    originaLang: 'en',
-    seasonCount: 1,
-    quality: '1080p',
-    printType: 'Web-DL',
-    audioType: 'Single',
-    audioLanguages: audioLang,
-    posterURL: '',
-    trailerURL: '',
-    fields: fields,
-    contentType: 'movie',
-    posters: [],
-    itemSelected: false,
-    ongoing: false,
-    latestEpisode: 0,
-    embedCode: ''
-  });
-
-  const handleAudioLangChange = (lang) => {
-    setAudioLang(lang);
-    setFormData((prev) => ({ ...prev, audioLanguages: lang }));
+    updateFormData({ fields: formData.fields.filter((_, index) => index !== indexToRemove) });
   };
 
   const addField = (data) => {
     setInputValue('');
     const { name: fieldTitle } = data[0];
-    setFields([...fields, { title: fieldTitle, value: data }]);
+    updateFormData({ fields: [...formData.fields, { title: fieldTitle, value: data }] });
   };
 
   const moveFieldUp = (oldIndex) => {
-    if (oldIndex > 0 && oldIndex < fields.length) {
-      const currFields = [...fields];
+    if (oldIndex > 0 && oldIndex < formData.fields.length) {
+      const currFields = [...formData.fields];
 
       const temp = currFields[oldIndex];
       currFields[oldIndex] = currFields[oldIndex - 1];
       currFields[oldIndex - 1] = temp;
 
-      setFields(currFields);
+      updateFormData({ fields: currFields });
     }
   };
+
   const moveFieldDown = (oldIndex) => {
-    if (oldIndex >= 0 && oldIndex < fields.length - 1) {
-      const currFields = [...fields];
+    if (oldIndex >= 0 && oldIndex < formData.fields.length - 1) {
+      const currFields = [...formData.fields];
 
       const temp = currFields[oldIndex];
       currFields[oldIndex] = currFields[oldIndex + 1];
       currFields[oldIndex + 1] = temp;
 
-      setFields(currFields);
+      updateFormData({ fields: currFields });
     }
   };
 
-  useEffect(() => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      fields: fields
-    }));
-  }, [fields]);
-
   const handleInputFieldChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    updateFormData({ [name]: value });
   };
 
   const [titleKeys, setTitleKeys] = useState({
@@ -164,13 +134,13 @@ function FormBuilder() {
           <div className="lg:scrollbar-hidden flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <div className="flex flex-col gap-2">
               <Header></Header>
-              <SearchBar setFormData={setFormData}></SearchBar>
+              <SearchBar />
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
               <div className="flex flex-col gap-2">
                 <Label>MEDIA INFO</Label>
                 <div className="flex w-full max-w-[350px] flex-col items-center justify-center gap-4 rounded-lg bg-[#1C1C1E] p-4 lg:max-w-max">
-                  <ContentSelector formData={formData} setFormData={setFormData}></ContentSelector>
+                  <ContentSelector formData={formData}></ContentSelector>
                   <div className=" flex flex-col  gap-4  px-4 lg:px-0 ">
                     <Input
                       label={'Title'}
@@ -213,15 +183,9 @@ function FormBuilder() {
                   label={'Audio Type'}
                   property={'audioType'}
                   options={audioTypeOptions}
-                  setFormData={setFormData}
                   defaultOption={audioTypeOptions[0]}
                 />
-                <AudioInputField
-                  audioType={formData.audioType}
-                  defaultValue={'English'}
-                  setAudioLang={handleAudioLangChange}
-                  formData={formData}
-                />
+                <AudioInputField audioType={formData.audioType} defaultValue={'English'} />
               </div>
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
@@ -230,7 +194,6 @@ function FormBuilder() {
                   label={'Quality'}
                   property={'quality'}
                   options={qualityOptions}
-                  setFormData={setFormData}
                   defaultOption={qualityOptions[0]}
                 />
 
@@ -238,7 +201,6 @@ function FormBuilder() {
                   label={'Print Type'}
                   property={'printType'}
                   options={printTypeOptions}
-                  setFormData={setFormData}
                   defaultOption={printTypeOptions[0]}
                 />
               </div>
@@ -252,7 +214,6 @@ function FormBuilder() {
               <Label>Poster</Label>
               <PosterSelector
                 posters={formData.posters}
-                setFormData={setFormData}
                 itemSelected={formData.itemSelected}
                 contentTitle={formData?.title}
               ></PosterSelector>
@@ -267,7 +228,7 @@ function FormBuilder() {
             />
 
             <div className="flex max-w-96 flex-col gap-2 lg:max-w-xl">
-              <Label>Fields: {fields.length}</Label>
+              <Label>Fields: {formData.fields.length}</Label>
 
               <div className="flex flex-col gap-2 ">
                 <div className="flex flex-col items-start gap-2 lg:flex-row lg:items-center">
@@ -285,24 +246,26 @@ function FormBuilder() {
                     Add Field
                   </button>
                 </div>
-                <div className={`rounded-xl ${fields.length >= 1 ? 'bg-[#1C1C1E]' : ''} p-4 pr-0`}>
-                  {fields.map((field, i) => (
+                <div
+                  className={`rounded-xl ${formData.fields.length >= 1 ? 'bg-[#1C1C1E]' : ''} p-4 pr-0`}
+                >
+                  {formData.fields.map((field, i) => (
                     <div key={i} className="relative flex max-w-xl flex-col">
                       <Field key={i} fieldIndex={i + 1} data={field}></Field>
-                      {i < fields.length - 1 && (
+                      {i < formData.fields.length - 1 && (
                         <div className="py-4">
                           <Divider />
                         </div>
                       )}
                       <div className="absolute right-0 top-0 flex gap-4 pr-4 ">
-                        {fields.length > 1 && i === 0 ? (
+                        {formData.fields.length > 1 && i === 0 ? (
                           <button
                             onClick={() => moveFieldDown(i)}
                             className=" text-lg text-neutral-400 transition-all duration-200 "
                           >
                             <ChevronDown size={30} />
                           </button>
-                        ) : fields.length > 1 && i === fields.length - 1 ? (
+                        ) : formData.fields.length > 1 && i === formData.fields.length - 1 ? (
                           <button
                             onClick={() => moveFieldUp(i)}
                             className=" text-lg text-neutral-400 transition-all duration-200 "
@@ -310,7 +273,7 @@ function FormBuilder() {
                             <ChevronUp size={30} />
                           </button>
                         ) : (
-                          fields.length > 1 && (
+                          formData.fields.length > 1 && (
                             <div className="flex items-center">
                               <button
                                 onClick={() => moveFieldUp(i)}

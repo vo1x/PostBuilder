@@ -3,12 +3,16 @@ import Option from './Option';
 import Divider from '../UI/Divider';
 import Label from '../UI/Label';
 
-function MultiSelector({ label, property, options, defaultOption = [], setFormData }) {
+import useFormStore from '../../stores/formStore';
+
+function MultiSelector({ label, property, options, defaultOption = [] }) {
   const [selectedOption, setSelectedOption] = useState(defaultOption);
 
+  const updateFormData = useFormStore((state) => state.updateFormData);
+
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, [property]: selectedOption.value }));
-  }, [selectedOption, property, setFormData]);
+    updateFormData({ [property]: selectedOption.value });
+  }, [selectedOption, property]);
 
   return (
     <div className="flex w-full max-w-80 flex-col items-start gap-2">

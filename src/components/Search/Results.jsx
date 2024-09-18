@@ -5,10 +5,14 @@ import useMediaInfo from '../../hooks/useMediaInfo';
 import { motion, AnimatePresence } from 'framer-motion';
 import Divider from '../UI/Divider';
 
-function Results({ setFormData, searchResults }) {
+import useFormStore from '../../stores/formStore';
+
+function Results({ searchResults }) {
   const [isItemSelected, setIsItemSelected] = useState(false);
   const [selectedItemID, setSelectedItemID] = useState('');
   const [selectedItemType, setSelectedItemType] = useState('');
+
+  const updateFormData = useFormStore((state) => state.updateFormData);
 
   const handleResultSelect = async (mediaType, mediaID) => {
     if (mediaID === selectedItemID) {
@@ -25,11 +29,10 @@ function Results({ setFormData, searchResults }) {
 
   useEffect(() => {
     if (mediaInfo) {
-      setFormData((prev) => ({
-        ...prev,
+      updateFormData({
         title: mediaInfo.title,
         originalLang: mediaInfo.original_language || 'English',
-        year: mediaInfo?.release_date.split('-')[0],
+        year: mediaInfo?.release_date?.split('-')[0],
         posterURL: `https://image.tmdb.org/t/p/original/${mediaInfo.poster_path}`,
         trailerURL: mediaInfo?.trailer,
         contentType: selectedItemType === 'tv' ? 'series' : 'movie',
@@ -37,9 +40,9 @@ function Results({ setFormData, searchResults }) {
         posters: mediaInfo.posters,
         ongoing: mediaInfo.in_production,
         latestEpisode: mediaInfo?.last_episode_to_air?.episode_number
-      }));
+      });
     }
-  }, [mediaInfo, selectedItemType, setFormData]);
+  }, [mediaInfo]);
 
   const [filteredResults, setFilteredResults] = useState([]);
 

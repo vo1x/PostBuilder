@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import useFileSize from '../hooks/useFileSize';
 import CopyButton from './UI/CopyButton';
-function EmbedCode({ formData }) {
+import useFormStore from '../stores/formStore';
+function EmbedCode({}) {
+  const formData = useFormStore((state) => state.formData);
   const { getReadableFS } = useFileSize();
 
   const [seriesPreviewStrings, setSeriesPreviewString] = useState([]);
@@ -75,7 +77,7 @@ function EmbedCode({ formData }) {
     } else if (contentType === 'series') {
       updateSeriesString();
     }
-  }, [fields, contentType, getReadableFS]);
+  }, [formData]);
 
   const finalString = `Download<span style="color: #000000;"><strong> ${title} (${year})${contentType === 'series' ? ` (Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span> ${printType}. Download <span style="color: #000000;"><strong>${title} (${year})${contentType === 'series' ? ` (Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span> in <strong><span style="color: #ff0000;"><a style="color: #ff0000;" href="https://uhdmovies.eu/1080p-uhd/">${quality} UHD</a></span> x264</strong><span style="color: #ff0000;"><strong></strong></span><span style="color: #333333;">Dual Audio with <strong>ORG</strong> Audios.<strong> UHD Movies</strong> is one of the best websites to download High-quality content directly through Google Drive. <a href="https://uhdmovies.eu/movies/"><strong>UHDMOVIES</strong></a> is powered by <strong><a href="https://moviesmod.org/"><span style="color: #008080;">MoviesMod</span></a></strong>. Here you can grab 4k &amp; 1080p UHD contents easily and save them in your google drive.</span>
   <h2 style="text-align: center;"><span style="color: #000000;"><strong>Download ${title} (${year}) ${contentType === 'series' ? `(Season 1${seasonCount > 1 ? `- ${seasonCount}` : ''})` : ''}</strong></span>

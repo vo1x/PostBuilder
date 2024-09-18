@@ -13,7 +13,6 @@ function Tag({ tagName, titleKeys, handleCheckbox }) {
       />
       <motion.label
         whileTap={{ scale: 0.9 }}
-        // onClick={{ scale: 0.9 }}
         htmlFor={`${tagName}box`}
         className={`block w-24 rounded-md text-center ${titleKeys[tagName] ? 'bg-[#0289F5]' : 'bg-[#3A393F]'} p-1`}
       >

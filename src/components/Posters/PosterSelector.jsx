@@ -13,8 +13,10 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import useClipboard from '../../hooks/useClipboard';
 import useImageDownloader from '../../hooks/useImageDownloader';
+import useFormStore from '../../stores/formStore';
 
-function PosterSelector({ posters, setFormData, contentTitle }) {
+function PosterSelector({ posters, contentTitle }) {
+  const updateFormData = useFormStore((state) => state.updateFormData);
   const [posterPathInView, setPosterPathInView] = useState(0);
   const [filteredPosters, setFilteredPosters] = useState(posters);
   const handleNextButton = () => {
@@ -50,10 +52,9 @@ function PosterSelector({ posters, setFormData, contentTitle }) {
   }, [posters]);
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
+    updateFormData({
       posterURL: `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`
-    }));
+    });
   }, [posterPathInView]);
 
   return (

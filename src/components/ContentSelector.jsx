@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react';
 
-function ContentSelector({ formData, setFormData }) {
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+import useFormStore from '../stores/formStore';
+
+function ContentSelector() {
+  // const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const formData = useFormStore((state) => state.formData);
+  const updateFormData = useFormStore((state) => state.updateFormData);
   const handleTabChange = (index) => {
     if (index === 0) {
-      setSelectedTabIndex(0);
-      setFormData((prev) => ({ ...prev, contentType: 'movie' }));
+      updateFormData({ contentType: 'movie' });
     } else {
-      setSelectedTabIndex(1);
-      setFormData((prev) => ({ ...prev, contentType: 'series' }));
+      updateFormData({ contentType: 'series' });
     }
   };
 
-  useEffect(() => {
-    if (formData.contentType === 'movie') setSelectedTabIndex(0);
-    else setSelectedTabIndex(1);
-  }, [formData.contentType]);
+  const selectedTabIndex = formData.contentType === 'movie' ? 0 : 1;
+
+  // useEffect(() => {
+  //   if (formData.contentType === 'movie') setSelectedTabIndex(0);
+  //   else setSelectedTabIndex(1);
+  // }, [formData.contentType]);
 
   return (
     <div className="flex w-max rounded-[10px] bg-[#3A393F] p-0.5">

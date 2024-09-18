@@ -5,7 +5,7 @@ import Results from './Results';
 import { SearchIcon, LucideLoader } from 'lucide-react';
 import Input from '../UI/Input';
 
-function SearchBar({ setFormData }) {
+function SearchBar() {
   const [searchValue, setSearchValue] = useState('');
   const [debouncedValue] = useDebounce(searchValue, 1000);
   const [loading, setLoading] = useState(false);
@@ -46,13 +46,7 @@ function SearchBar({ setFormData }) {
         placeholder={'Search movie or show...'}
         type={'text'}
       ></Input>
-      {searchResults && searchResults.length > 0 ? (
-        <Results
-          setFormData={setFormData}
-          searchResults={searchResults}
-          searchValue={searchValue}
-        ></Results>
-      ) : null}
+      {searchResults?.length > 0 ? <Results searchResults={searchResults} /> : null}
     </div>
   );
 }
