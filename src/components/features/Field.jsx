@@ -1,4 +1,4 @@
-import Label from './UI/Label';
+import Label from '../common/Label';
 function Field(props) {
   return (
     <>

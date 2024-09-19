@@ -1,22 +1,27 @@
-import EmbedCode from '../components/EmbedCode';
-import { FiTrash2 } from 'react-icons/fi';
 import { useState, useEffect } from 'react';
-import Field from '../components/Field';
-import Header from '../components/Header';
-import TitleGen from '../components/TitleGen/TitleGen';
-import AudioInputField from '../components/AudioInputField';
-import Input from '../components/UI/Input';
-import Title from '../components/TitleGen/Title';
-import SearchBar from '../components/Search/SearchBar';
-import PosterSelector from '../components/Posters/PosterSelector';
-import useFields from '../hooks/useFields';
+
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import MultiSelector from '../components/MultiSelector/MultiSelector';
-import ContentSelector from '../components/ContentSelector';
-import Label from '../components/UI/Label';
-import Divider from '../components/UI/Divider';
+
+import { FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
+
+import { Input, Label, Divider } from '../components/common';
+
+import {
+  TitleGen,
+  AudioInputField,
+  Title,
+  SearchBar,
+  PosterSelector,
+  MultiSelector,
+  ContentSelector
+} from '../components/features';
+
+import { Header, EmbedCode } from '../components/layout';
+
+import useFields from '../hooks/useFields';
+
 import useFormStore from '../stores/formStore';
 
 function FormBuilder() {

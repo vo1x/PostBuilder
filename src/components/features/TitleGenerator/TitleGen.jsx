@@ -1,5 +1,6 @@
-import Divider from '../UI/Divider';
-import Tag from './Tag';
+import { motion } from 'framer-motion';
+import { Divider } from '../../common';
+
 const TitleGen = ({ titleKeys, setTitleKeys }) => {
   const handleCheckbox = (e) => {
     const { value, checked } = e.target;
@@ -42,5 +43,27 @@ const TitleGen = ({ titleKeys, setTitleKeys }) => {
     </div>
   );
 };
+
+function Tag({ tagName, titleKeys, handleCheckbox }) {
+  return (
+    <div>
+      <input
+        type="checkbox"
+        id={`${tagName}box`}
+        value={tagName}
+        checked={titleKeys[tagName]}
+        onChange={(e) => handleCheckbox(e)}
+        className="hidden"
+      />
+      <motion.label
+        whileTap={{ scale: 0.9 }}
+        htmlFor={`${tagName}box`}
+        className={`block w-24 rounded-md text-center ${titleKeys[tagName] ? 'bg-[#0289F5]' : 'bg-[#3A393F]'} p-1`}
+      >
+        {tagName}
+      </motion.label>
+    </div>
+  );
+}
 
 export default TitleGen;

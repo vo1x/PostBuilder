@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import useFileSize from '../hooks/useFileSize';
-import CopyButton from './UI/CopyButton';
-import useFormStore from '../stores/formStore';
+import useFileSize from '../../hooks/useFileSize';
+import CopyButton from '../common/CopyButton';
+import useFormStore from '../../stores/formStore';
 function EmbedCode({}) {
   const formData = useFormStore((state) => state.formData);
   const { getReadableFS } = useFileSize();

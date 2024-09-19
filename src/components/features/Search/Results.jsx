@@ -1,11 +1,12 @@
 import ResultCard from './ResultCard';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import useMediaInfo from '../../hooks/useMediaInfo';
+import useMediaInfo from '../../../hooks/useMediaInfo';
 import { motion, AnimatePresence } from 'framer-motion';
-import Divider from '../UI/Divider';
+import { Divider } from '../../common';
 
-import useFormStore from '../../stores/formStore';
+
+import useFormStore from '../../../stores/formStore';
 
 function Results({ searchResults }) {
   const [isItemSelected, setIsItemSelected] = useState(false);

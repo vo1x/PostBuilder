@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import useFormStore from '../stores/formStore';
+import useFormStore from '../../stores/formStore';
 
 function ContentSelector() {
   // const [selectedTabIndex, setSelectedTabIndex] = useState(0);

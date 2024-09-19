@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import useClipboard from '../../hooks/useClipboard';
-import Label from '../UI/Label';
-import useFormStore from '../../stores/formStore';
+import useClipboard from '../../../hooks/useClipboard';
+import {  Label } from '../../common';
+
+import useFormStore from '../../../stores/formStore';
 
 export default function Title({ titleKeys }) {
   const formData = useFormStore((state) => state.formData);

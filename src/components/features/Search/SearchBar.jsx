@@ -3,7 +3,8 @@ import axios from 'axios';
 import { useDebounce } from 'use-debounce';
 import Results from './Results';
 import { SearchIcon, LucideLoader } from 'lucide-react';
-import Input from '../UI/Input';
+
+import { Input } from '../../common';
 
 function SearchBar() {
   const [searchValue, setSearchValue] = useState('');
