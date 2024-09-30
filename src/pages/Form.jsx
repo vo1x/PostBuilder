@@ -22,6 +22,7 @@ import {
 import { Header, EmbedCode } from '../components/layout';
 
 import useFields from '../hooks/useFields';
+import useWordPress from '../hooks/useWordpress';
 
 import useFormStore from '../stores/formStore';
 
@@ -133,6 +134,13 @@ function FormBuilder() {
     { name: 'Multi', value: 'Multi' }
   ];
 
+  const { createDraft } = useWordPress();
+  const handleCreateDraft = () => {
+    console.log(formData.title );
+    console.log(formData.embedCode);
+    createDraft(formData.title, formData.embedCode);
+  };
+
   return (
     <>
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
@@ -140,7 +148,15 @@ function FormBuilder() {
           <div className="lg:scrollbar-hidden flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
             <div className="flex flex-col gap-2">
               <Header></Header>
-              <SearchBar />
+              <div className="flex items-center space-x-6">
+                <SearchBar />
+                <button
+                  onClick={handleCreateDraft}
+                  className="rounded-lg bg-[#0A84FF] p-2 font-semibold"
+                >
+                  Create Draft
+                </button>
+              </div>
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
               <div className="flex flex-col gap-2">

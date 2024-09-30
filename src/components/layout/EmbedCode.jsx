@@ -4,6 +4,7 @@ import CopyButton from '../common/CopyButton';
 import useFormStore from '../../stores/formStore';
 function EmbedCode({}) {
   const formData = useFormStore((state) => state.formData);
+  const updateFormData = useFormStore((state) => state.updateFormData);
   const { getReadableFS } = useFileSize();
 
   const [seriesPreviewStrings, setSeriesPreviewString] = useState([]);
@@ -90,6 +91,10 @@ function EmbedCode({}) {
 Here you can download <a href="https://uhdmovies.eu/1080p-uhd/"><strong>1080p x264 UHD</strong></a>, <a href="https://uhdmovies.eu/1080p-60fps/"><strong>1080p 60FPS</strong></a>, <a href="https://uhdmovies.eu/1080p-10bit/"><strong>1080p x265 10Bit</strong></a>, <a href="https://uhdmovies.eu/4k-hdr/"><strong>4k HDR</strong></a>, <strong><a href="https://uhdmovies.eu/2160p-movies/">4k 2160p</a> SDR &amp; <a href="https://uhdmovies.eu/3d-movies/">3D Movies</a></strong> through <strong>Google Drive Links</strong>. High-quality movies with the best quality options and maximum bitrates. We also focus on providing the best quality audio available. <strong>4k HEVC Dolby Atmos</strong> is one of the best High-quality formats with low file sizes. We provide a fast &amp; safe direct google drive link to download the best quality stuff from the <strong>best Encoders</strong>. You can easily clone our files into your<strong> G-Drive</strong> and make your own collection of high-quality movies. <strong>Google Drive Direct</strong>/<strong>Login to download</strong>/<strong>Make Clone</strong> option are the best way to download or make a copy in your google drive.
 
 <strong><span style="color: #ff0000;">Note:</span></strong> We Do not host any files on our server. All files shared here are collected from the internet from various Encoders and hosted on third-party sites. We do not accept responsibility for content hosted on third-party websites. We just index those links which are already available on the internet.`;
+
+  useEffect(() => {
+    updateFormData({ embedCode: finalString });
+  }, [finalString]);
 
   return (
     <div className="relative flex max-w-96 flex-col content-center gap-3 lg:max-w-full">
