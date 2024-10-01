@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import useClipboard from '../../../hooks/useClipboard';
-import {  Label } from '../../common';
+import { Label } from '../../common';
 
 import useFormStore from '../../../stores/formStore';
+import { useEffect } from 'react';
 
 export default function Title({ titleKeys }) {
   const formData = useFormStore((state) => state.formData);
+  const updateFormData = useFormStore((state) => state.updateFormData);
   const [copied, handleItemCopy] = useClipboard();
   const titleString = `Download ${formData.title} (${formData.year})${
     formData.contentType === 'series'
@@ -21,6 +23,10 @@ export default function Title({ titleKeys }) {
     .filter((key) => titleKeys[key])
     .map((key) => `${key} `)
     .join('|| ')}${formData.printType} Esubs`;
+
+  useEffect(() => {
+    updateFormData({ wpTitle: titleString });
+  }, [titleString]);
 
   return (
     <div

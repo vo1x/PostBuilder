@@ -136,9 +136,7 @@ function FormBuilder() {
 
   const { createDraft } = useWordPress();
   const handleCreateDraft = () => {
-    console.log(formData.title );
-    console.log(formData.embedCode);
-    createDraft(formData.title, formData.embedCode);
+    createDraft(formData.wpTitle, formData.embedCode, formData.posterURL, formData.posterFileName);
   };
 
   return (
@@ -152,7 +150,7 @@ function FormBuilder() {
                 <SearchBar />
                 <button
                   onClick={handleCreateDraft}
-                  className="rounded-lg bg-[#0A84FF] p-2 font-semibold"
+                  className="self-start rounded-lg bg-[#0A84FF] p-2 font-semibold"
                 >
                   Create Draft
                 </button>

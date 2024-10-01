@@ -21,6 +21,7 @@ const useFormStore = create((set) => ({
     printType: 'Web-DL',
     audioType: 'Single',
     audioLanguages: 'English',
+    posterFileName: '',
     posterURL: '',
     trailerURL: '',
     fields: [],
@@ -29,7 +30,8 @@ const useFormStore = create((set) => ({
     itemSelected: false,
     ongoing: false,
     latestEpisode: 0,
-    embedCode: ''
+    embedCode: '',
+    wpTitle: ''
   },
   updateFormData: (update) => {
     set((state) => ({ formData: { ...state.formData, ...update } }));

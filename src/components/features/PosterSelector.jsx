@@ -18,6 +18,7 @@ import useFormStore from '../../stores/formStore';
 
 function PosterSelector({ posters, contentTitle }) {
   const updateFormData = useFormStore((state) => state.updateFormData);
+  const formData = useFormStore((state) => state.formData);
   const [posterPathInView, setPosterPathInView] = useState(0);
   const [filteredPosters, setFilteredPosters] = useState(posters);
   const handleNextButton = () => {
@@ -54,7 +55,8 @@ function PosterSelector({ posters, contentTitle }) {
 
   useEffect(() => {
     updateFormData({
-      posterURL: `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`
+      posterURL: `https://image.tmdb.org/t/p/original${filteredPosters[posterPathInView]?.file_path}`,
+      posterFileName: `Download ${formData.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '-')}.${filteredPosters[posterPathInView]?.file_path.split('.').pop()}`
     });
   }, [posterPathInView]);
 
@@ -139,7 +141,6 @@ function Poster({ path }) {
     </div>
   );
 }
-
 
 function Button({ btnText, onClick }) {
   return (
