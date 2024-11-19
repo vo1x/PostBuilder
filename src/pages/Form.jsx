@@ -148,12 +148,12 @@ function FormBuilder() {
               <Header></Header>
               <div className="flex items-center space-x-6">
                 <SearchBar />
-                <button
+                {/* <button
                   onClick={handleCreateDraft}
                   className="self-start rounded-lg bg-[#0A84FF] p-2 font-semibold"
                 >
                   Create Draft
-                </button>
+                </button> */}
               </div>
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
@@ -191,6 +191,13 @@ function FormBuilder() {
                               onChange={handleInputFieldChange}
                               type={'number'}
                             />
+                            <Input
+                              label={`Episode`}
+                              value={formData.episodeNum}
+                              name={`episodeNum`}
+                              onChange={handleInputFieldChange}
+                              type={'number'}
+                            ></Input>
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -235,7 +242,6 @@ function FormBuilder() {
               <PosterSelector
                 posters={formData.posters}
                 itemSelected={formData.itemSelected}
-                contentTitle={formData?.title}
               ></PosterSelector>
             </div>
             <Input

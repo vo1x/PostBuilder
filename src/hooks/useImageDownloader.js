@@ -3,9 +3,12 @@ import { useState } from 'react';
 
 const useImageDownloader = () => {
   const [isDownloading, setIsDownloading] = useState(false);
-  const downloadImage = async (filePath, fileName) => {
-    const url = `/tmdb/t/p/original${filePath}`;
-
+  const downloadImage = async (fileUrl, fileName, isTmdbUrl) => {
+    let url = fileUrl;
+    if (isTmdbUrl) {
+      const filePath = fileUrl.split('/').pop();
+      url = `/tmdb/t/p/original/${filePath}`;
+    }
     try {
       setIsDownloading(true);
 

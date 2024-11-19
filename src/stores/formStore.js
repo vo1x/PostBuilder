@@ -17,6 +17,7 @@ const useFormStore = create((set) => ({
     year: '2024',
     originaLang: 'en',
     seasonCount: 1,
+    episodeNum: 0,
     quality: '1080p',
     printType: 'Web-DL',
     audioType: 'Single',

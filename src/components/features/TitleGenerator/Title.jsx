@@ -7,22 +7,42 @@ import { useEffect } from 'react';
 
 export default function Title({ titleKeys }) {
   const formData = useFormStore((state) => state.formData);
+
+  const {
+    title,
+    year,
+    contentType,
+    audioType,
+    audioLanguages,
+    episodeNum,
+    ongoing,
+    printType,
+    seasonCount
+  } = formData;
+
   const updateFormData = useFormStore((state) => state.updateFormData);
   const [copied, handleItemCopy] = useClipboard();
-  const titleString = `Download ${formData.title} (${formData.year})${
-    formData.contentType === 'series'
-      ? formData.seasonCount > 1
-        ? ` (Season 1 - ${formData.seasonCount}) `
-        : ' (Season 1) '
-      : ''
-  }${formData.contentType === 'series' && formData.ongoing ? `[S${formData.seasonCount.toString().padStart(2, 0)}E${formData.latestEpisode ? formData.latestEpisode.toString().padStart(2, 0) : 'x'} Added]` : ''} ${
-    formData.audioType === 'Dual' || formData.audioType === 'Multi'
-      ? `${formData.audioType} Audio {${formData.audioLanguages}} `
-      : `{${formData.audioLanguages} Audio} `
-  }${Object.keys(titleKeys)
+
+  const strTitleKeys = `${Object.keys(titleKeys)
     .filter((key) => titleKeys[key])
     .map((key) => `${key} `)
-    .join('|| ')}${formData.printType} Esubs`;
+    .join('|| ')}${printType} Esubs`;
+
+  const seasonString =
+    contentType === 'series'
+      ? seasonCount > 1
+        ? ` (Season 1 - ${seasonCount}) `
+        : ' (Season 1) '
+      : '';
+
+  const epString = `${contentType === 'series' && ongoing && parseInt(episodeNum) > 0 ? `[S${seasonCount.toString().padStart(2, 0)}E${episodeNum.padStart(2, 0)} Added]` : ``}`;
+
+  const audioString =
+    audioType === 'Dual' || audioType === 'Multi'
+      ? `${audioType} Audio {${audioLanguages}} `
+      : `{${audioLanguages} Audio} `;
+
+  const titleString = `Download ${title} (${year})${seasonString}${epString} ${audioString} ${strTitleKeys}`;
 
   useEffect(() => {
     updateFormData({ wpTitle: titleString });
