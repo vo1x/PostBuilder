@@ -29,7 +29,7 @@ const AudioSelector = () => {
   }, [inputValue]);
 
   return (
-    <div className="flex h-max items-center rounded-lg bg-[#2c2c2e]">
+    <div className="flex h-max items-center rounded-lg bg-[#1C1C1E]">
       <select
         name="audioSelector"
         id="audioSelector"
