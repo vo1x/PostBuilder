@@ -10,7 +10,6 @@ import { Input, Label, Divider } from '../components/common';
 
 import {
   TitleGen,
-  AudioInputField,
   Title,
   SearchBar,
   PosterSelector,
@@ -18,6 +17,8 @@ import {
   ContentSelector,
   Field
 } from '../components/features';
+
+import AudioSelector from '../components/AudioSelector';
 
 import { Header, EmbedCode } from '../components/layout';
 
@@ -205,18 +206,13 @@ function FormBuilder() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col items-start gap-4">
-                <MultiSelector
-                  label={'Audio Type'}
-                  property={'audioType'}
-                  options={audioTypeOptions}
-                  defaultOption={audioTypeOptions[0]}
-                />
-                <AudioInputField audioType={formData.audioType} defaultValue={'English'} />
+              <div className="flex flex-col items-start gap-2">
+                <Label>Title Generator</Label>
+                <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
               </div>
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
-              <div className="flex min-w-80 max-w-80 flex-col gap-8">
+              <div className="flex gap-8">
                 <MultiSelector
                   label={'Quality'}
                   property={'quality'}
@@ -231,12 +227,11 @@ function FormBuilder() {
                   defaultOption={printTypeOptions[0]}
                 />
               </div>
-              <div className="flex flex-col items-start gap-2">
-                <Label>Title Generator</Label>
-                <TitleGen titleKeys={titleKeys} setTitleKeys={setTitleKeys}></TitleGen>
-              </div>
             </div>
-
+            <div className="flex flex-col items-start gap-2">
+              <Label>AUDIO</Label>
+              <AudioSelector />
+            </div>
             <div className=" flex flex-col gap-2">
               <Label>Poster</Label>
               <PosterSelector

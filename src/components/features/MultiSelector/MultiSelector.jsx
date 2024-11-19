@@ -14,7 +14,7 @@ function MultiSelector({ label, property, options, defaultOption = [] }) {
   }, [selectedOption, property]);
 
   return (
-    <div className="flex w-full max-w-80 flex-col items-start gap-2">
+    <div className="flex w-80 flex-col items-start gap-2">
       <Label>{label}</Label>
       <div className="flex w-full flex-col rounded-lg bg-[#1C1C1E] px-4 pr-0">
         {options.map((option, i) => (
