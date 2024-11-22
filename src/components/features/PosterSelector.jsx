@@ -10,7 +10,8 @@ import {
   ChevronsRight,
   ChevronsLeft,
   Edit,
-  Trash
+  Trash,
+  UploadCloudIcon
 } from 'lucide-react';
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,8 +19,11 @@ import { useEffect, useState } from 'react';
 import useClipboard from '../../hooks/useClipboard';
 import useImageDownloader from '../../hooks/useImageDownloader';
 import useFormStore from '../../stores/formStore';
+import useWordPress from '../../hooks/useWordpress';
 
 function PosterSelector({ posters }) {
+  const { uploadImage, isUploading } = useWordPress();
+
   const updateFormData = useFormStore((state) => state.updateFormData);
   const formData = useFormStore((state) => state.formData);
 
@@ -66,31 +70,7 @@ function PosterSelector({ posters }) {
     }
   };
 
-  const postersPerPage = 4;
-
   const [currentPage, setCurrentPage] = useState(0);
-
-  const getPostersForPage = () => {
-    const startIndex = currentPage * postersPerPage;
-    return filteredPosters.slice(startIndex, startIndex + postersPerPage);
-  };
-
-  const handleNextButton = () => {
-    const totalPages = Math.ceil(filteredPosters.length / postersPerPage);
-    if (currentPage >= totalPages - 1) {
-      setCurrentPage(0);
-    } else {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-
-  const handlePrevButton = () => {
-    if (currentPage <= 0) {
-      setCurrentPage(Math.ceil(filteredPosters.length / postersPerPage) - 1);
-    } else {
-      setCurrentPage((prev) => prev - 1);
-    }
-  };
 
   const [scrollOffset, setScrollOffset] = useState(0);
 
@@ -256,6 +236,19 @@ function PosterSelector({ posters }) {
                 }}
               >
                 {isDownloading ? <LucideLoader className="animate-spin" /> : <DownloadIcon />}
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="rounded-md bg-[#0A84FF] p-2 font-semibold"
+                onClick={() => {
+                  uploadImage(
+                    `Download ${formData.title.replace(/[^a-zA-Z0-9\s]/g, '')}.${selectedPosterUrl.split('.').pop().replace('/', '')}`,
+                    selectedPosterUrl
+                  );
+                }}
+              >
+                {isUploading ? <LucideLoader className="animate-spin" /> : <UploadCloudIcon />}
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.1 }}
