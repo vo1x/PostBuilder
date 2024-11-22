@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import axios from 'axios';
 const useWordPress = () => {
   const [isUploading, setIsUploading] = useState(false);
   const createDraft = async (title, content, imageUrl, imageFileName) => {
-    const url = `https://uhdwpapi.vercel.app/createDraft`;
+    const url = `http://localhost:5000/createDraft`;
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -30,19 +31,14 @@ const useWordPress = () => {
   };
 
   const uploadImage = async (imageFileName, imageUrl) => {
-    const url = `https://uhdwpapi.vercel.app/uploadImage`;
+    const url = `/uploadImage`;
     setIsUploading(true);
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          imageFileName,
-          imageUrl
-        })
-      });
+      const response = await axios.post(
+        url,
+        { imageFileName, imageUrl },
+        { headers: { 'Content-Type': 'application/json' } }
+      );
 
       if (!response.ok) {
         const errorBody = await response.text();
