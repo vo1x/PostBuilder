@@ -22,7 +22,7 @@ import useFormStore from '../../stores/formStore';
 import useWordPress from '../../hooks/useWordpress';
 
 function PosterSelector({ posters }) {
-  const { uploadImage, isUploading } = useWordPress();
+  const { uploadImage, isUploading, isUploaded, isError } = useWordPress();
 
   const updateFormData = useFormStore((state) => state.updateFormData);
   const formData = useFormStore((state) => state.formData);
@@ -240,7 +240,7 @@ function PosterSelector({ posters }) {
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="rounded-md bg-[#0A84FF] p-2 font-semibold"
+                className={`rounded-md  p-2 font-semibold ${isUploaded ? 'bg-[#16a34a]' : isError ? 'bg-red-600' : 'bg-[#0A84FF]'}`}
                 onClick={() => {
                   uploadImage(
                     `Download ${formData.title.replace(/[^a-zA-Z0-9\s]/g, '')}.${selectedPosterUrl.split('.').pop().replace('/', '')}`,

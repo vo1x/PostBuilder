@@ -2,6 +2,9 @@ import { useState } from 'react';
 import axios from 'axios';
 const useWordPress = () => {
   const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
+  const [isError, setIsError] = useState(false);
+
   const createDraft = async (title, content, imageUrl, imageFileName) => {
     const url = `http://localhost:5000/createDraft`;
     try {
@@ -33,6 +36,8 @@ const useWordPress = () => {
   const uploadImage = async (imageFileName, imageUrl) => {
     const url = `/uploadImage`;
     setIsUploading(true);
+    setIsUploaded(false);
+    setIsError(false);
     try {
       const response = await axios.post(
         url,
@@ -46,14 +51,16 @@ const useWordPress = () => {
       }
       setIsUploading(false);
       const newImage = await response.json();
+      setIsUploaded(true);
       console.log(newImage.message);
     } catch (error) {
       setIsUploading(false);
+      setIsError(true);
       console.error('Error uploading image:', error);
     }
   };
 
-  return { createDraft, uploadImage, isUploading };
+  return { createDraft, uploadImage, isUploading, isUploaded, isError };
 };
 
 export default useWordPress;
