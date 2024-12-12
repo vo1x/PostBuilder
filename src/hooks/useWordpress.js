@@ -5,8 +5,8 @@ const useWordPress = () => {
   const [isUploaded, setIsUploaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const createDraft = async (title, content, imageUrl, imageFileName) => {
-    const url = `http://localhost:5000/createDraft`;
+  const createDraft = async (title, content, imageUrl, imageFileName, sticky) => {
+    const url = `https://uhdwpapi.vercel.app/createDraft`;
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -17,7 +17,8 @@ const useWordPress = () => {
           title,
           content,
           imageFileName,
-          imageUrl
+          imageUrl,
+          sticky
         })
       });
 
@@ -27,9 +28,12 @@ const useWordPress = () => {
       }
 
       const newDraft = await response.json();
+
       console.log('Draft was successfully created!', newDraft);
+      return true;
     } catch (error) {
       console.error('Error creating draft:', error);
+      return false;
     }
   };
 

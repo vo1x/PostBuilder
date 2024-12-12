@@ -27,10 +27,38 @@ import useWordPress from '../hooks/useWordpress';
 
 import useFormStore from '../stores/formStore';
 
+const ConfirmationDialog = ({ isOpen, onConfirm, onCancel, title }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="w-full max-w-sm rounded-lg bg-[#1C1C1E] p-6">
+        <h2 className="mb-4 text-lg font-semibold">Confirm Draft Creation</h2>
+        <p className="mb-6">Are you sure you want to create a draft for "{title}"?</p>
+        <div className="flex justify-end space-x-4">
+          <button
+            onClick={onCancel}
+            className="rounded-md bg-gray-600 px-4 py-2 text-white transition-colors hover:bg-gray-700"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className="rounded-md bg-[#0A84FF] px-4 py-2 text-white transition-colors hover:bg-blue-700"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 function FormBuilder() {
   const { fetchFieldInfo } = useFields();
   const [inputValue, setInputValue] = useState('');
-
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [isCreatingDraft, setIsCreatingDraft] = useState(false);
   const formData = useFormStore((state) => state.formData);
   const updateFormData = useFormStore((state) => state.updateFormData);
 
@@ -129,19 +157,54 @@ function FormBuilder() {
     { name: 'WEB-DL', value: 'WEB-DL' },
     { name: 'Blu-ray', value: 'Blu-ray' }
   ];
-  const audioTypeOptions = [
-    { name: 'Single', value: 'Single' },
-    { name: 'Dual', value: 'Dual' },
-    { name: 'Multi', value: 'Multi' }
-  ];
 
   const { createDraft } = useWordPress();
-  const handleCreateDraft = () => {
-    createDraft(formData.wpTitle, formData.embedCode, formData.posterURL, formData.posterFileName);
+  const handleCreateDraft = async () => {
+    setIsConfirmationOpen(false);
+
+    setIsCreatingDraft(true);
+
+    try {
+      const success = await createDraft(
+        formData.wpTitle,
+        formData.embedCode,
+        formData.posterURL,
+        formData.posterFileName,
+        false
+      );
+
+      if (success) {
+        toast.success(`Draft for "${formData.title}" created successfully!`, {
+          theme: 'colored',
+          autoClose: 3000,
+          position: 'top-right'
+        });
+      } else {
+        toast.error('Failed to create draft. Please try again.', {
+          theme: 'colored',
+          autoClose: 3000,
+          position: 'top-right'
+        });
+      }
+    } catch (error) {
+      toast.error('An error occurred while creating the draft.', {
+        theme: 'colored',
+        autoClose: 3000,
+        position: 'top-right'
+      });
+    } finally {
+      setIsCreatingDraft(false);
+    }
   };
 
   return (
     <>
+      <ConfirmationDialog
+        isOpen={isConfirmationOpen}
+        onConfirm={handleCreateDraft}
+        onCancel={() => setIsConfirmationOpen(false)}
+        title={formData.title}
+      />
       <div className="grid place-items-center overflow-hidden lg:max-h-svh lg:p-4">
         <div className="max-w-screen lg:w-100vw flex flex-col lg:grid lg:grid-cols-2">
           <div className="lg:scrollbar-hidden flex flex-col gap-8 overflow-auto overflow-x-hidden p-5 lg:max-h-svh">
@@ -149,12 +212,18 @@ function FormBuilder() {
               <Header></Header>
               <div className="flex items-center space-x-6">
                 <SearchBar />
-                {/* <button
-                  onClick={handleCreateDraft}
-                  className="self-start rounded-lg bg-[#0A84FF] p-2 font-semibold"
+                <button
+                  onClick={() => setIsConfirmationOpen(true)}
+                  disabled={isCreatingDraft}
+                  className={`flex items-center justify-center self-start rounded-lg p-2 font-semibold 
+                                     ${
+                                       isCreatingDraft
+                                         ? 'cursor-not-allowed bg-gray-500'
+                                         : 'bg-[#0A84FF] hover:bg-blue-700'
+                                     }`}
                 >
                   Create Draft
-                </button> */}
+                </button>
               </div>
             </div>
             <div className="flex flex-col gap-8 lg:flex-row">
