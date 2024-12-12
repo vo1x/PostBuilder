@@ -6,7 +6,7 @@ const useWordPress = () => {
   const [isError, setIsError] = useState(false);
 
   const createDraft = async (title, content, imageUrl, imageFileName, sticky) => {
-    const url = `https://uhdwpapi.vercel.app/createDraft`;
+    const url = `/createDraft`;
     try {
       const response = await fetch(url, {
         method: 'POST',
