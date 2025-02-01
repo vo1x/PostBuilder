@@ -26,6 +26,7 @@ import useFields from '../hooks/useFields';
 import useWordPress from '../hooks/useWordpress';
 
 import useFormStore from '../stores/formStore';
+import useClipboard from '../hooks/useClipboard';
 
 const ConfirmationDialog = ({ isOpen, onConfirm, onCancel, title }) => {
   if (!isOpen) return null;
@@ -61,6 +62,7 @@ function FormBuilder() {
   const [isCreatingDraft, setIsCreatingDraft] = useState(false);
   const formData = useFormStore((state) => state.formData);
   const updateFormData = useFormStore((state) => state.updateFormData);
+  const [copied, handleItemCopy] = useClipboard();
 
   const removeField = (indexToRemove) => {
     setInputValue('');
@@ -397,6 +399,10 @@ function FormBuilder() {
 
           <div className="flex flex-col gap-3 p-4 lg:h-screen lg:overflow-y-auto lg:p-0">
             <Title formData={formData} titleKeys={titleKeys} />
+            <div
+              onClick={(e) => handleItemCopy('Focus Keyphrase', e.target.textContent, true)}
+              className="cursor-pointer"
+            >{`Download ${formData.title} (${formData.year})`}</div>
             <EmbedCode formData={formData}></EmbedCode>
           </div>
         </div>
